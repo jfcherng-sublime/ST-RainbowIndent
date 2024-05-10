@@ -1,0 +1,12 @@
+{
+    // The time (in secondes) to wait for the next event to be triggered.
+    "debounce": 0.2,
+    // Scopes in the color scheme to be used for indent levels.
+    "level_colors": [
+        // "region.indent.1",
+        // "region.indent.2",
+        // "region.indent.3",
+    ],
+    // Style of the indent indicator. Can be "line" or "block".
+    "level_style": "block"
+}

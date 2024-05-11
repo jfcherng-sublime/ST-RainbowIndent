@@ -1,0 +1,49 @@
+from __future__ import annotations
+
+import sys
+from dataclasses import dataclass
+from enum import Enum
+from typing import Tuple
+
+POINT = int
+TUPLE_REGION = Tuple[POINT, POINT]
+
+if sys.version_info >= (3, 11):
+    from enum import StrEnum
+else:
+
+    class StrEnum(str, Enum):
+        __str__ = str.__str__  # type: ignore
+        __format__ = str.__format__  # type: ignore
+
+
+@dataclass
+class IndentInfo:
+    tab_size: int
+    style: IndentStyle
+
+    @property
+    def indent_chars(self) -> str:
+        if self.style is IndentStyle.SPACE:
+            return " " * self.tab_size
+        if self.style is IndentStyle.TAB:
+            return "\t"
+        raise ValueError(f"Unknown indent style: {self.style}")
+
+    @property
+    def indent_length(self) -> int:
+        return len(self.indent_chars)
+
+    @property
+    def indent_pattern(self) -> str:
+        return rf"^({self.indent_chars})+"
+
+
+class IndentStyle(StrEnum):
+    SPACE = "space"
+    TAB = "tab"
+
+
+class LevelStyle(StrEnum):
+    BLOCK = "block"
+    LINE = "line"

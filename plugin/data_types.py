@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 from dataclasses import dataclass
 from enum import Enum
+from functools import cached_property
 from typing import Tuple
 
 POINT = int
@@ -17,12 +18,12 @@ else:
         __format__ = str.__format__  # type: ignore
 
 
-@dataclass
+@dataclass(frozen=True)
 class IndentInfo:
     tab_size: int
     style: IndentStyle
 
-    @property
+    @cached_property
     def indent_chars(self) -> str:
         if self.style is IndentStyle.SPACE:
             return " " * self.tab_size
@@ -30,11 +31,11 @@ class IndentInfo:
             return "\t"
         raise ValueError(f"Unknown indent style: {self.style}")
 
-    @property
+    @cached_property
     def indent_length(self) -> int:
         return len(self.indent_chars)
 
-    @property
+    @cached_property
     def indent_pattern(self) -> str:
         return rf"^({self.indent_chars})+"
 

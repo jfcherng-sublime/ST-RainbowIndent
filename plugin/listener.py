@@ -18,6 +18,9 @@ class RainbowIndent(sublime_plugin.ViewEventListener):
     def on_modified_async(self) -> None:
         self._work(self.view)
 
+    def on_reload_async(self) -> None:
+        self._work(self.view)
+
     def on_revert_async(self) -> None:
         self._work(self.view)
 

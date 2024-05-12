@@ -8,5 +8,7 @@
         // "region.indent.3",
     ],
     // Style of the indent indicator. Can be "line" or "block".
-    "level_style": "block"
+    "level_style": "block",
+    // The max file size to enable the plugin. Set to negative value to disable the limit.
+    "file_size_limit": 10485760, // about 10 MB
 }

@@ -3,6 +3,7 @@ from __future__ import annotations
 import sublime
 import sublime_plugin
 
+from .settings import get_file_size_limit
 from .utils import configured_debounce
 from .view_manager import ViewManager
 
@@ -24,4 +25,9 @@ class RainbowIndent(sublime_plugin.ViewEventListener):
     @configured_debounce
     def _work(view: sublime.View) -> None:
         vm = ViewManager.get_instance(view)
+
+        if 0 <= get_file_size_limit() < view.size():
+            vm.clear_view()
+            return
+
         vm.render_view()

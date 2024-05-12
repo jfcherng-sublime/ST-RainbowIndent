@@ -36,3 +36,7 @@ def get_level_colors() -> list[str]:
 
 def get_level_style() -> LevelStyle:
     return LevelStyle(get_plugin_setting("level_style", "block"))
+
+
+def get_file_size_limit() -> int:
+    return int(get_plugin_setting("file_size_limit", -1))

@@ -4,7 +4,8 @@ UV_INSTALL_FLAGS :=
 all:
 
 .PHONY: install
-install: install-dev
+install:
+	uv pip install $(UV_INSTALL_FLAGS) -r requirements.txt
 
 .PHONY: install-dev
 install-dev:
@@ -12,6 +13,7 @@ install-dev:
 
 .PHONY: pip-compile
 pip-compile:
+	uv pip compile --upgrade requirements.in -o requirements.txt
 	uv pip compile --upgrade requirements-dev.in -o requirements-dev.txt
 
 .PHONY: ci-check

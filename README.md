@@ -10,6 +10,8 @@
 
 Makes indentation easier to read.
 
+This is a simple clone of the [Indent Rainbow][vscode-indent-rainbow] VSCode extension.
+
 ## Installation
 
 This plugin is not published on Package Control (yet?).
@@ -29,3 +31,5 @@ To install this plugin via Package Control, you have to add a custom repository.
 ## Known Issues
 
 - There is no way to draw a region, where there is nothing, via ST's plugin APIs.
+
+[vscode-indent-rainbow]: https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow

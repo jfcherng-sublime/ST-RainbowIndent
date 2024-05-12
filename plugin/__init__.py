@@ -1,12 +1,12 @@
 from .indent_renderer import AbstractIndentRenderer
-from .listener import RainbowIndent
+from .listener import RainbowIndentEventListener
 
 __all__ = (
     # ST: core
     "plugin_loaded",
     "plugin_unloaded",
     # ST: listeners
-    "RainbowIndent",
+    "RainbowIndentEventListener",
     # public interfaces
     "AbstractIndentRenderer",
 )

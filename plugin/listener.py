@@ -8,7 +8,7 @@ from .utils import configured_debounce
 from .view_manager import ViewManager
 
 
-class RainbowIndent(sublime_plugin.ViewEventListener):
+class RainbowIndentEventListener(sublime_plugin.ViewEventListener):
     def on_activated_async(self) -> None:
         self._work(self.view)
 

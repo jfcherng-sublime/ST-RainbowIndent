@@ -5,10 +5,11 @@ from functools import lru_cache
 from typing import Any, Generator, Mapping, final
 
 import sublime
+from more_itertools import first_true
 
 from .data_types import POINT, IndentInfo, LevelStyle
 from .helpers import get_regions_color, get_regions_key
-from .utils import camel_to_snake, first_true, list_all_subclasses, remove_suffix
+from .utils import camel_to_snake, list_all_subclasses, remove_suffix
 
 
 def find_indent_renderer(obj: Any) -> type[AbstractIndentRenderer] | None:

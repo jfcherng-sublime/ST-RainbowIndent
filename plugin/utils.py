@@ -4,39 +4,10 @@ import inspect
 import sys
 import threading
 from functools import wraps
-from typing import Any, Callable, Generator, Iterable, TypeVar, cast, overload
+from typing import Any, Callable, Generator, TypeVar, cast
 
 _T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 _T = TypeVar("_T")
-_U = TypeVar("_U")
-
-
-@overload
-def first_true(
-    items: Iterable[_T],
-    default: _U,
-    pred: Callable[[_T], bool] | None = None,
-) -> _T | _U: ...
-
-
-@overload
-def first_true(
-    items: Iterable[_T],
-    *,
-    pred: Callable[[_T], bool] | None = None,
-) -> _T | None: ...
-
-
-def first_true(
-    items: Iterable[_T],
-    default: _U | None = None,
-    pred: Callable[[_T], bool] | None = None,
-) -> _T | _U | None:
-    """
-    Gets the first item which satisfies the `pred`. Otherwise, `default`.
-    If `pred` is not given or `None`, the first truthy item will be returned.
-    """
-    return next(filter(pred, items), default)
 
 
 def list_all_subclasses(

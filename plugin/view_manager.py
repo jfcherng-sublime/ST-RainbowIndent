@@ -13,7 +13,7 @@ from .settings import get_level_style
 
 def calcualte_level_pts(view: sublime.View, *, indent_info: IndentInfo) -> dict[int, list[POINT]]:
     """
-    Calculate the begin point of indents for each level.
+    Calculates the begin point of indents for each level.
 
     :param      view:         The view.
     :param      indent_info:  The indent information.
@@ -22,8 +22,8 @@ def calcualte_level_pts(view: sublime.View, *, indent_info: IndentInfo) -> dict[
     """
     level_pts: defaultdict[int, list[POINT]] = defaultdict(list)
     for region in view.find_all(indent_info.indent_pattern):
-        for level in range(region.size() // indent_info.indent_length):
-            level_pts[level].append(region.a + level * indent_info.indent_length)
+        for level, level_pt_bias in enumerate(range(0, region.size(), indent_info.indent_length)):
+            level_pts[level].append(region.a + level_pt_bias)
     return level_pts
 
 

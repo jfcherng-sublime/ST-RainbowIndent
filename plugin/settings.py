@@ -27,7 +27,7 @@ def get_plugin_settings() -> sublime.Settings:
 
 
 def get_debounce_time() -> float:
-    return get_plugin_setting("debounce", 0.2)
+    return float(get_plugin_setting("debounce", 0.2))
 
 
 def get_level_colors() -> list[str]:

@@ -26,9 +26,8 @@ def list_indent_rendereres() -> Generator[type[AbstractIndentRenderer], None, No
 
 
 class AbstractIndentRenderer(ABC):
-    def __init__(self, view: sublime.View, *, indent_info: IndentInfo) -> None:
+    def __init__(self, view: sublime.View) -> None:
         self.view = view
-        self.indent_info = indent_info
 
     @final
     @classmethod
@@ -42,7 +41,7 @@ class AbstractIndentRenderer(ABC):
         """Check if this renderer can support the given style."""
 
     @abstractmethod
-    def render(self, level_pts: Mapping[int, list[POINT]]) -> None:
+    def render(self, *, level_pts: Mapping[int, list[POINT]], indent_info: IndentInfo) -> None:
         """Render the view based on the points of each level."""
 
 
@@ -53,11 +52,11 @@ class BlockIndentRenderer(AbstractIndentRenderer):
     def can_support(cls, style: Any) -> bool:
         return str(style) == LevelStyle.BLOCK
 
-    def render(self, level_pts: Mapping[int, list[POINT]]) -> None:
+    def render(self, *, level_pts: Mapping[int, list[POINT]], indent_info: IndentInfo) -> None:
         for level, pts in level_pts.items():
             self.view.add_regions(
                 get_regions_key(level),
-                tuple(sublime.Region(pt, pt + self.indent_info.indent_length) for pt in pts),
+                tuple(sublime.Region(pt, pt + indent_info.indent_length) for pt in pts),
                 scope=get_regions_color(level),
                 flags=self.__REGION_FLAGS,
             )
@@ -70,7 +69,7 @@ class LineIndentRenderer(AbstractIndentRenderer):
     def can_support(cls, style: Any) -> bool:
         return str(style) == LevelStyle.LINE
 
-    def render(self, level_pts: Mapping[int, list[POINT]]) -> None:
+    def render(self, *, level_pts: Mapping[int, list[POINT]], indent_info: IndentInfo) -> None:
         for level, pts in level_pts.items():
             self.view.add_regions(
                 get_regions_key(level),

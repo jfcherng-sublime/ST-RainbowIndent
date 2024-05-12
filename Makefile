@@ -16,6 +16,10 @@ pip-compile:
 	uv pip compile --upgrade requirements.in -o requirements.txt
 	uv pip compile --upgrade requirements-dev.in -o requirements-dev.txt
 
+.PHONY: update-changelog
+update-changelog:
+	git cliff --output=CHANGELOG.md
+
 .PHONY: ci-check
 ci-check:
 	@echo "========== check: mypy =========="

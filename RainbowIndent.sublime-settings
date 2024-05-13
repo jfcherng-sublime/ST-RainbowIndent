@@ -3,9 +3,12 @@
     "debounce": 0.2,
     // Scopes in the color scheme to be used for indent levels.
     "level_colors": [
+        // "region.indent.0",
         // "region.indent.1",
         // "region.indent.2",
         // "region.indent.3",
+        // "region.indent.4",
+        // "region.indent.5",
     ],
     // Style of the indent indicator. Can be "line" or "block".
     "level_style": "block",

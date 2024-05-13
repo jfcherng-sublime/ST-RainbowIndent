@@ -10,7 +10,7 @@
 
 Makes indentation easier to read.
 
-This is a simple clone of the [Indent Rainbow][vscode-indent-rainbow] VSCode extension.
+This is a simple conceptual clone of the [Indent Rainbow][vscode-indent-rainbow] VSCode extension.
 
 ## Installation
 
@@ -25,11 +25,72 @@ To install this plugin via Package Control, you have to add a custom repository.
 
 ## Demo
 
-![screenshot](https://github.com/jfcherng-sublime/ST-RainbowIndent/assets/6594915/967c6cfb-9927-4e18-9a25-ba494485defe)
-![screenshot](https://github.com/jfcherng-sublime/ST-RainbowIndent/assets/6594915/b86f2458-b05f-40bb-855a-1aec7e31963f)
+Colors can be customized in plugin settings and your color scheme.
+
+![screenshot](https://github.com/jfcherng-sublime/ST-RainbowIndent/assets/6594915/c0efd1a8-d18b-4ad6-a1ef-d3de54ef6d4e)
+
+## Example Color Scheme Rules
+
+You may add following rules into your color scheme.
+
+```js
+///////////////////
+// RainbowIndent //
+///////////////////
+{
+    // red
+    "foreground": "rgba(229, 57, 53, 0.35)",
+    "background": "rgba(229, 57, 53, 0.2)",
+    "scope": "region.indent.0",
+},
+{
+    // green
+    "foreground": "rgba(67, 160, 71, 0.35)",
+    "background": "rgba(67, 160, 71, 0.2)",
+    "scope": "region.indent.1",
+},
+{
+    // blue
+    "foreground": "rgba(30, 136, 229, 0.35)",
+    "background": "rgba(30, 136, 229, 0.2)",
+    "scope": "region.indent.2",
+},
+{
+    // orange
+    "foreground": "rgba(251, 140, 0, 0.35)",
+    "background": "rgba(251, 140, 0, 0.2)",
+    "scope": "region.indent.3",
+},
+{
+    // purple
+    "foreground": "rgba(142, 36, 170, 0.35)",
+    "background": "rgba(142, 36, 170, 0.2)",
+    "scope": "region.indent.4",
+},
+{
+    // cyan
+    "foreground": "rgba(0, 172, 193, 0.35)",
+    "background": "rgba(0, 172, 193, 0.2)",
+    "scope": "region.indent.5",
+},
+```
+
+And use the following plugin setting.
+
+```js
+"level_colors": [
+    "region.indent.0",
+    "region.indent.1",
+    "region.indent.2",
+    "region.indent.3",
+    "region.indent.4",
+    "region.indent.5",
+],
+```
 
 ## Known Issues
 
 - There is no way to draw a region, where there is nothing, via ST's plugin APIs.
+- Sometimes, ST seems to draw regions wrongly. Not sure how to stably reproduce this.
 
 [vscode-indent-rainbow]: https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow

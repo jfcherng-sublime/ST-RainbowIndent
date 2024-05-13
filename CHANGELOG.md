@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.0.2] - 2024-05-13
+
+### 🚀 Features
+
+- Add on_reload_async() hook
+
+### 🚜 Refactor
+
+- Rename RainbowIndent class to RainbowIndentEventListener
+- Tidy codes
+
+### 📚 Documentation
+
+- Mention VSCode's indent-rainbow extension
+
+### ⚙️ Miscellaneous Tasks
+
+- *(menu)* Add plugin's main menu
+- Add sublime-package.json for LSP-json completion
+
 ## [4169-0.0.1] - 2024-05-12
 
 ### 🚀 Features

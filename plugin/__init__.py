@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .indent_renderer import AbstractIndentRenderer
 from .listener import RainbowIndentEventListener
 

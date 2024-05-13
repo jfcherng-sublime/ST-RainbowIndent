@@ -1,0 +1,78 @@
+{
+  "contributions": {
+    "settings": [
+      //////////////
+      // settings //
+      //////////////
+      {
+        "file_patterns": [
+          "/RainbowIndent.sublime-settings"
+        ],
+        "schema": {
+          "$id": "sublime://settings/RainbowIndent",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "sublime://settings/RainbowIndent#/definitions/root_plugin_settings"
+            }
+          ],
+          "definitions": {
+            "root_plugin_settings": {
+              "properties": {
+                "debounce": {
+                  "description": "The time (in secondes) to wait for the next event to be triggered.",
+                  "type": "number",
+                  "default": 0.2
+                },
+                "level_colors": {
+                  "description": "Scopes in the color scheme to be used for indent levels.",
+                  "type": "array",
+                  "items": {
+                    "$comment": "Scope for coloring.",
+                    "type": "string"
+                  },
+                  "default": []
+                },
+                "level_style": {
+                  "description": "Style of the indent indicator.",
+                  "type": "string",
+                  "enum": [
+                    "block",
+                    "line"
+                  ],
+                  "enumDescriptions": [
+                    "Block style",
+                    "Line style"
+                  ],
+                  "default": "block"
+                },
+                "file_size_limit": {
+                  "markdownDescription": "The max file size to enable the plugin. Set to negative value to disable the limit.",
+                  "type": "integer",
+                  "default": 10485760
+                }
+              }
+            }
+          }
+        }
+      }
+      //////////////////////
+      // project settings //
+      //////////////////////
+      /*{
+        "file_patterns": ["/*.sublime-project"],
+        "schema": {
+          "properties": {
+            "settings": {
+              "properties": {
+                "RainbowIndent": {
+                  "$ref": "sublime://settings/RainbowIndent#/definitions/root_plugin_settings"
+                }
+              }
+            }
+          }
+        }
+      }*/
+    ]
+  }
+}

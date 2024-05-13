@@ -8,26 +8,15 @@
 [![GitHub stars](https://img.shields.io/github/stars/jfcherng-sublime/ST-RainbowIndent?style=flat-square&logo=github)](https://github.com/jfcherng-sublime/ST-RainbowIndent/stargazers)
 [![Donate to this project using Paypal](https://img.shields.io/badge/paypal-donate-blue.svg?style=flat-square&logo=paypal)](https://www.paypal.me/jfcherng/5usd)
 
+![screenshot](https://raw.githubusercontent.com/jfcherng-sublime/ST-RainbowIndent/docs/images/screenshot.png)
+
 Makes indentation easier to read.
 
 This is a simple conceptual clone of the [Indent Rainbow][vscode-indent-rainbow] VSCode extension.
 
 ## Installation
 
-This plugin is not published on Package Control (yet?).
-
-To install this plugin via Package Control, you have to add a custom repository.
-
-1. Execute `Package Control: Add Repository` in the command palette.
-1. Add this custom repository: `https://raw.githubusercontent.com/jfcherng-sublime/ST-my-package-control/master/repository.json`
-1. Restart Sublime Text.
-1. You should be able to install this package with Package Control with the name `RainbowIndent`.
-
-## Demo
-
-Colors can be customized in plugin settings and your color scheme.
-
-![screenshot](https://github.com/jfcherng-sublime/ST-RainbowIndent/assets/6594915/c0efd1a8-d18b-4ad6-a1ef-d3de54ef6d4e)
+This package is available on [Package Control][package-control] by the name of [RainbowIndent][st-rainbow-indent].
 
 ## Example Color Scheme Rules
 
@@ -75,7 +64,7 @@ You may add following rules into your color scheme.
 },
 ```
 
-And use the following plugin setting.
+And then use the following plugin setting.
 
 ```js
 "level_colors": [
@@ -93,4 +82,6 @@ And use the following plugin setting.
 - There is no way to draw a region, where there is nothing, via ST's plugin APIs.
 - Sometimes, ST seems to draw regions wrongly. Not sure how to stably reproduce this.
 
+[package-control]: https://packagecontrol.io
+[st-rainbow-indent]: https://packagecontrol.io/packages/RainbowIndent
 [vscode-indent-rainbow]: https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow

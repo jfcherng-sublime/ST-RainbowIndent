@@ -16,6 +16,8 @@ class RainbowIndentEventListener(sublime_plugin.ViewEventListener):
         self._work(self.view)
 
     def on_modified_async(self) -> None:
+        # @todo This can probably be optimized by only updating the changed regions
+        #       with `sublime_plugin.TextChangeListener.on_text_changed_async()`.
         self._work(self.view)
 
     def on_reload_async(self) -> None:

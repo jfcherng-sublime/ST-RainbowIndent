@@ -1,0 +1,48 @@
+[
+    {
+        "id": "preferences",
+        "children": [
+            {
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "RainbowIndent",
+                        "children": [
+                            {
+                                "caption": "-"
+                            },
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/RainbowIndent/RainbowIndent.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                }
+                            },
+                            {
+                                "caption": "-"
+                            },
+                            {
+                                "caption": "README",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/RainbowIndent/README.md"
+                                }
+                            },
+                            {
+                                "caption": "CHANGELOG",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/RainbowIndent/CHANGELOG.md"
+                                }
+                            },
+                            {
+                                "caption": "-"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

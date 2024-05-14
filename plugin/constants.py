@@ -14,3 +14,6 @@ LEVEL_COLORS_FALLBACK = [
     "region.purplish",
     "region.pinkish",
 ]
+
+VIEW_KEY_USER_DISABLED = f"{PLUGIN_NAME}.user_disabled"
+"""The view setting key to disable the plugin for the view."""

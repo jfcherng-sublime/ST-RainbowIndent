@@ -11,18 +11,18 @@ from .view_manager import ViewManager
 
 @configured_debounce
 def refresh_rendering(view: sublime.View) -> None:
+    def _should_render() -> bool:
+        # the user may explicitly enable/disable this plugin for the current view
+        if (is_disabled := v_settings.get(VIEW_KEY_USER_DISABLED)) is None:
+            return not (0 <= get_file_size_limit() < view.size())
+        return not is_disabled
+
     v_settings = view.settings()
     vm = ViewManager.get_instance(view)
-
-    if (
-        v_settings.get(VIEW_KEY_USER_DISABLED, False)
-        # ...
-        or 0 <= get_file_size_limit() < view.size()
-    ):
+    if _should_render():
+        vm.render_view()
+    else:
         vm.clear_view()
-        return
-
-    vm.render_view()
 
 
 class RainbowIndentEventListener(sublime_plugin.ViewEventListener):

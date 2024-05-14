@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.1] - 2024-05-14
+
+### 🚜 Refactor
+
+- Prefer user's enable/disable if it's set
+
+### ⚙️ Miscellaneous Tasks
+
+- Add .markdownlint.yaml
+- Add command palette menu items
+- Remove persistent status bar message after executing a command
+
 ## [4169-0.1.0] - 2024-05-14
 
 ### 🚀 Features

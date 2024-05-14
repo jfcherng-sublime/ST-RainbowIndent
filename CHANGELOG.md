@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.0] - 2024-05-14
+
+### 🚀 Features
+
+- Add commands for enable/disable/toggle plugin for view
+
+### 📚 Documentation
+
+- Update README
+
+### ⚙️ Miscellaneous Tasks
+
+- Add todo
+- Update .gitignore
+- Update deps
+
 ## [4169-0.0.3] - 2024-05-13
 
 ### 🚜 Refactor

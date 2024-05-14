@@ -18,9 +18,35 @@ This is a simple conceptual clone of the [Indent Rainbow][vscode-indent-rainbow]
 
 This package is available on [Package Control][package-control] by the name of [RainbowIndent][st-rainbow-indent].
 
-## Example Color Scheme Rules
+## FAQ
 
-You may add following rules into your color scheme.
+### How to Customize Indent Colors?
+
+First, you have to decide how many colors you want to use for indents.
+
+Say, if you want to use 6 colors, add the following into plugin's `level_colors` setting.
+
+```js
+"level_colors": [
+    "region.indent.0",
+    "region.indent.1",
+    "region.indent.2",
+    "region.indent.3",
+    "region.indent.4",
+    "region.indent.5",
+],
+```
+
+These `region.indent.0` ... `region.indent.5` are called `scope`s in Sublime Text.
+Names of `scope` aren't important but I just feel these names are self-explanatory.
+
+Next, you have to add coloring rules into your color scheme for those `scope`s.
+For example, adding the following rules into your color scheme.
+
+- `foreground` is the indent line color when `level_style` is set to `line`.
+- `background` is the indent background color when `level_style` is set to `block`.
+
+Valid color formats are listed on [Sublime Text's official document][st-docs-color-schemes-colors].
 
 ```js
 ///////////////////
@@ -64,24 +90,12 @@ You may add following rules into your color scheme.
 },
 ```
 
-And then use the following plugin setting.
-
-```js
-"level_colors": [
-    "region.indent.0",
-    "region.indent.1",
-    "region.indent.2",
-    "region.indent.3",
-    "region.indent.4",
-    "region.indent.5",
-],
-```
-
 ## Known Issues
 
 - There is no way to draw a region, where there is nothing, via ST's plugin APIs.
 - Sometimes, ST seems to draw regions wrongly. Not sure how to stably reproduce this.
 
 [package-control]: https://packagecontrol.io
+[st-docs-color-schemes-colors]: https://www.sublimetext.com/docs/color_schemes.html#colors
 [st-rainbow-indent]: https://packagecontrol.io/packages/RainbowIndent
 [vscode-indent-rainbow]: https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow

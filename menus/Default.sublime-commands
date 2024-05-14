@@ -1,0 +1,14 @@
+[
+    {
+        "caption": "RainbowIndent: Disable for This View",
+        "command": "rainbow_indent_view_disable",
+    },
+    {
+        "caption": "RainbowIndent: Enable for This View",
+        "command": "rainbow_indent_view_enable",
+    },
+    {
+        "caption": "RainbowIndent: Toggle for This View",
+        "command": "rainbow_indent_view_toggle",
+    },
+]

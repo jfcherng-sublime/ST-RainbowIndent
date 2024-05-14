@@ -3,14 +3,13 @@ from __future__ import annotations
 import sublime
 import sublime_plugin
 
-from ..constants import PLUGIN_NAME, VIEW_KEY_USER_DISABLED
+from ..constants import VIEW_KEY_USER_DISABLED
 from ..listener import refresh_rendering
 
 
 def set_activation_status(view: sublime.View, enabled: bool) -> None:
     """Sets the activation status of this plugin for the view."""
     view.settings().set(VIEW_KEY_USER_DISABLED, not enabled)
-    view.set_status(PLUGIN_NAME, f"{PLUGIN_NAME}: {'Enabled' if enabled else 'Disabled'}")
     refresh_rendering(view)
 
 

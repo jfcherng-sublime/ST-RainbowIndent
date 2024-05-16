@@ -6,7 +6,7 @@ from .commands import (
     RainbowIndentViewToggleCommand,
 )
 from .indent_renderer import AbstractIndentRenderer
-from .listener import RainbowIndentEventListener
+from .listener import RainbowIndentEventListener, RainbowIndentTextChangeListener
 from .view_manager import ViewManager
 
 __all__ = (
@@ -19,6 +19,7 @@ __all__ = (
     "RainbowIndentViewToggleCommand",
     # ST: listeners
     "RainbowIndentEventListener",
+    "RainbowIndentTextChangeListener",
     # public interfaces
     "AbstractIndentRenderer",
 )

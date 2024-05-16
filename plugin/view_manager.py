@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import weakref
 from collections import defaultdict
-from typing import Sequence
+from typing import Generator, Sequence
 
 import sublime
 
@@ -81,6 +81,10 @@ class ViewManager:
         self.max_level = max(level_regions.keys(), default=-1)
 
         renderer.render(level_colors=level_colors, level_regions=level_regions)
+
+    def list_indent_level_regions(self) -> Generator[tuple[int, list[sublime.Region]], None, None]:
+        for level in range(self.max_level + 1):
+            yield (level, self.view.get_regions(get_regions_key(level)))
 
     def _get_renderer(self, level_style: LevelStyle) -> AbstractIndentRenderer:
         if not (renderer_cls := find_indent_renderer(level_style)):

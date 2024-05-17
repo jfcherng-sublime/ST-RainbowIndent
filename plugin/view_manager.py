@@ -50,6 +50,12 @@ class ViewManager:
             self.view.erase_regions(get_regions_key(level))
         self.max_level = -1
 
+    @classmethod
+    def clear_all_views(cls) -> None:
+        for vm in cls.__instances.values():
+            vm.clear_view()
+        cls.__instances.clear()
+
     def render_view(self) -> None:
         indent_info = get_view_indent(self.view)
         renderer = self._get_renderer(get_level_style())

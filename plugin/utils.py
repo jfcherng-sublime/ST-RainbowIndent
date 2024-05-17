@@ -4,7 +4,9 @@ import inspect
 import sys
 import threading
 from functools import wraps
-from typing import Any, Callable, Generator, TypeVar, cast
+from typing import Any, Callable, Generator, Iterable, Sequence, TypeVar, cast
+
+import sublime
 
 _T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 _T = TypeVar("_T")
@@ -87,3 +89,15 @@ def configured_debounce(func: _T_Callable) -> _T_Callable:
         return func(*args, **kwargs)
 
     return cast(_T_Callable, debounced)
+
+
+def list_views(
+    windows: Iterable[sublime.Window] | None = None,
+    *,
+    include_transient: bool = False,
+) -> Generator[sublime.View, None, None]:
+    """List all views in all windows."""
+    if windows is None:
+        windows = sublime.windows()
+
+    yield from (view for window in sublime.windows() for view in window.views(include_transient=include_transient))

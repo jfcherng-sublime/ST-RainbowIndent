@@ -7,6 +7,7 @@ from .commands import (
 )
 from .indent_renderer import AbstractIndentRenderer
 from .listener import RainbowIndentEventListener
+from .view_manager import ViewManager
 
 __all__ = (
     # ST: core
@@ -24,8 +25,9 @@ __all__ = (
 
 
 def plugin_loaded() -> None:
-    pass
+    """Executed when this plugin is loaded."""
 
 
 def plugin_unloaded() -> None:
-    pass
+    """Executed when this plugin is unloaded."""
+    ViewManager.clear_all_views()

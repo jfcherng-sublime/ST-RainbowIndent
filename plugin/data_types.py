@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import re
 import sys
 from dataclasses import dataclass
 from enum import Enum
 from functools import cached_property
-from typing import Tuple
+from typing import Pattern, Tuple
 
 POINT = int
 TUPLE_REGION = Tuple[POINT, POINT]
@@ -38,6 +39,10 @@ class IndentInfo:
     @cached_property
     def indent_pattern(self) -> str:
         return rf"^({self.indent_chars})+"
+
+    @cached_property
+    def indent_pattern_compiled(self) -> Pattern[str]:
+        return re.compile(self.indent_pattern, flags=re.MULTILINE)
 
 
 class IndentStyle(StrEnum):

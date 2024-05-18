@@ -2,29 +2,46 @@ from __future__ import annotations
 
 import weakref
 from collections import defaultdict
+from typing import Sequence
 
 import sublime
 
-from .data_types import POINT, IndentInfo, LevelStyle
+from .data_types import IndentInfo, LevelStyle
 from .helpers import get_regions_key, get_view_indent
 from .indent_renderer import AbstractIndentRenderer, find_indent_renderer
-from .settings import get_level_style
+from .settings import get_level_colors, get_level_style
 
 
-def calcualte_level_pts(view: sublime.View, *, indent_info: IndentInfo) -> dict[int, list[POINT]]:
+def calcualte_level_regions(
+    view: sublime.View,
+    *,
+    indent_info: IndentInfo | None = None,
+    regions: Sequence[sublime.Region] | None = None,
+) -> defaultdict[int, list[sublime.Region]]:
     """
     Calculates the begin point of indents for each level.
 
     :param      view:         The view.
     :param      indent_info:  The indent information.
+                              If `None`, it will be deduced from the `view`.
+    :param      regions:      The interested regions of the `view`.
+                              They should be whole lines, non-overlapping and sorted in ascending order beforehand.
+                              If `None`, the whole region of the `view` will be used.
 
-    :returns:   A dictionary whose keys are the indent level and values are the begin point of level indents.
+    :returns:   A dictionary whose keys are the indent level and values are regions of level indents.
     """
-    level_pts: defaultdict[int, list[POINT]] = defaultdict(list)
-    for region in view.find_all(indent_info.indent_pattern):
-        for level, level_pt_bias in enumerate(range(0, region.size(), indent_info.indent_length)):
-            level_pts[level].append(region.a + level_pt_bias)
-    return level_pts
+    if indent_info is None:
+        indent_info = get_view_indent(view)
+    if regions is None:
+        regions = (sublime.Region(0, view.size()),)
+
+    whole_content = view.substr(sublime.Region(0, view.size()))
+    level_regions: defaultdict[int, list[sublime.Region]] = defaultdict(list)
+    for region in regions:
+        for m in indent_info.indent_pattern_compiled.finditer(whole_content, region.begin(), region.end()):
+            for level, level_pt in enumerate(range(m.start(), m.end(), indent_info.indent_length)):
+                level_regions[level].append(sublime.Region(level_pt, level_pt + indent_info.indent_length))
+    return level_regions
 
 
 class ViewManager:
@@ -60,10 +77,11 @@ class ViewManager:
         indent_info = get_view_indent(self.view)
         renderer = self._get_renderer(get_level_style())
 
-        level_pts = calcualte_level_pts(self.view, indent_info=indent_info)
-        self.max_level = max(level_pts.keys(), default=-1)
+        level_colors = get_level_colors()
+        level_regions = calcualte_level_regions(self.view, indent_info=indent_info)
+        self.max_level = max(level_regions.keys(), default=-1)
 
-        renderer.render(level_pts=level_pts, indent_info=indent_info)
+        renderer.render(level_colors=level_colors, level_regions=level_regions)
 
     def _get_renderer(self, level_style: LevelStyle) -> AbstractIndentRenderer:
         if not (renderer_cls := find_indent_renderer(level_style)):

@@ -14,21 +14,21 @@ def set_activation_status(view: sublime.View, enabled: bool) -> None:
 
 
 class RainbowIndentViewDisableCommand(sublime_plugin.TextCommand):
-    """Disables this plugin for the current view."""
+    """Disables rendering for the current view explicitly."""
 
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, False)
 
 
 class RainbowIndentViewEnableCommand(sublime_plugin.TextCommand):
-    """Enables this plugin for the current view."""
+    """Enables rendering for the current view explicitly."""
 
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, True)
 
 
 class RainbowIndentViewToggleCommand(sublime_plugin.TextCommand):
-    """Toggles the activation status of this plugin for the current view."""
+    """Toggles the rendering status of this plugin for the current view explicitly."""
 
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, self.view.settings().get(VIEW_KEY_USER_DISABLED, False))

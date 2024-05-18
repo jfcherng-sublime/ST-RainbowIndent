@@ -12,6 +12,11 @@ _T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 _T = TypeVar("_T")
 
 
+def get_circular_nth(seq: Sequence[_T], n: int) -> _T:
+    """Gets the nth element in a sequence circularly."""
+    return seq[n % len(seq)]
+
+
 def list_all_subclasses(
     root: type[_T],
     skip_abstract: bool = False,

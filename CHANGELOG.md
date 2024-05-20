@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.2] - 2024-05-20
+
+### 🐛 Bug Fixes
+
+- Clear colored regions when plugin is unloaded
+
+### 🚜 Refactor
+
+- Tidy codes
+
+### 📚 Documentation
+
+- Improve color customization section
+
 ## [4169-0.1.1] - 2024-05-14
 
 ### 🚜 Refactor

@@ -9,4 +9,6 @@ mypy-extensions==1.0.0
 ruff==0.4.4
     # via -r requirements-dev.in
 typing-extensions==4.11.0
-    # via mypy
+    # via
+    #   -r requirements.in
+    #   mypy

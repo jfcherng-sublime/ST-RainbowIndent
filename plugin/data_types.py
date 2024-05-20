@@ -7,6 +7,9 @@ from enum import Enum
 from functools import cached_property
 from typing import Pattern, Tuple
 
+import sublime
+from typing_extensions import Self
+
 POINT = int
 TUPLE_REGION = Tuple[POINT, POINT]
 
@@ -43,6 +46,16 @@ class IndentInfo:
     @cached_property
     def indent_pattern_compiled(self) -> Pattern[str]:
         return re.compile(self.indent_pattern, flags=re.MULTILINE)
+
+    @classmethod
+    def from_view(cls, view: sublime.View) -> Self:
+        settings = view.settings()
+        tab_size = int(settings.get("tab_size", 4))
+        if settings.get("translate_tabs_to_spaces", False):
+            style = IndentStyle.SPACE
+        else:
+            style = IndentStyle.TAB
+        return cls(tab_size=tab_size, style=style)
 
 
 class IndentStyle(StrEnum):

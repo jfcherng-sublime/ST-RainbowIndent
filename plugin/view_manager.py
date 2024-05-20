@@ -7,7 +7,7 @@ from typing import Sequence
 import sublime
 
 from .data_types import IndentInfo, LevelStyle
-from .helpers import get_regions_key, get_view_indent
+from .helpers import get_regions_key
 from .indent_renderer import AbstractIndentRenderer, find_indent_renderer
 from .settings import get_level_colors, get_level_style
 
@@ -31,7 +31,7 @@ def calcualte_level_regions(
     :returns:   A dictionary whose keys are the indent level and values are regions of level indents.
     """
     if indent_info is None:
-        indent_info = get_view_indent(view)
+        indent_info = IndentInfo.from_view(view)
     if regions is None:
         regions = (sublime.Region(0, view.size()),)
 
@@ -74,11 +74,10 @@ class ViewManager:
         cls.__instances.clear()
 
     def render_view(self) -> None:
-        indent_info = get_view_indent(self.view)
         renderer = self._get_renderer(get_level_style())
 
         level_colors = get_level_colors()
-        level_regions = calcualte_level_regions(self.view, indent_info=indent_info)
+        level_regions = calcualte_level_regions(self.view)
         self.max_level = max(level_regions.keys(), default=-1)
 
         renderer.render(level_colors=level_colors, level_regions=level_regions)

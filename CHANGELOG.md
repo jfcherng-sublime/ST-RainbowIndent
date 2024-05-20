@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.3] - 2024-05-20
+
+### 🚜 Refactor
+
+- Tidy codes
+
+### ⚙️ Miscellaneous Tasks
+
+- Add "typing-extensions" as a dependency
+
 ## [4169-0.1.2] - 2024-05-20
 
 ### 🐛 Bug Fixes

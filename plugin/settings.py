@@ -1,13 +1,28 @@
 from __future__ import annotations
 
-from typing import Any, TypeVar, overload
+from typing import Any, Callable, TypeVar, cast, overload
 
 import sublime
 
 from .constants import LEVEL_COLORS_FALLBACK, PLUGIN_NAME
 from .data_types import LevelStyle
+from .utils import debounce
 
 _T = TypeVar("_T")
+_T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
+
+
+def debounce_by_settings(func: _T_Callable) -> _T_Callable:
+    """Debounce a function so that it's called once in seconds defined in the plugin settings."""
+
+    def debounced(*args: Any, **kwargs: Any) -> Any:
+        from .settings import get_debounce_time
+
+        if (time_s := get_debounce_time()) > 0:
+            return debounce(time_s)(func)(*args, **kwargs)
+        return func(*args, **kwargs)
+
+    return cast(_T_Callable, debounced)
 
 
 @overload

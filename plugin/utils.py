@@ -8,8 +8,8 @@ from typing import Any, Callable, Generator, Iterable, Sequence, TypeVar, cast
 
 import sublime
 
-_T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 _T = TypeVar("_T")
+_T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 
 
 def get_circular_nth(seq: Sequence[_T], n: int) -> _T:
@@ -83,26 +83,13 @@ def debounce(time_s: float = 0.3) -> Callable[[_T_Callable], _T_Callable]:
     return decorator
 
 
-def configured_debounce(func: _T_Callable) -> _T_Callable:
-    """Debounce a function so that it's called once in seconds."""
-
-    def debounced(*args: Any, **kwargs: Any) -> Any:
-        from .settings import get_debounce_time
-
-        if (time_s := get_debounce_time()) > 0:
-            return debounce(time_s)(func)(*args, **kwargs)
-        return func(*args, **kwargs)
-
-    return cast(_T_Callable, debounced)
-
-
 def list_views(
     windows: Iterable[sublime.Window] | None = None,
     *,
     include_transient: bool = False,
 ) -> Generator[sublime.View, None, None]:
-    """List all views in all windows."""
+    """List all views in `windows`. If `windows` is `None`, then all windows."""
     if windows is None:
         windows = sublime.windows()
 
-    yield from (view for window in sublime.windows() for view in window.views(include_transient=include_transient))
+    yield from (view for window in windows for view in window.views(include_transient=include_transient))

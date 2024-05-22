@@ -1,0 +1,16 @@
+[
+    {
+        "id": "RainbowIndent",
+        "caption": "RainbowIndent",
+        "children": [
+            {
+                "caption": "Disable for This View",
+                "command": "rainbow_indent_view_disable",
+            },
+            {
+                "caption": "Enable for This View",
+                "command": "rainbow_indent_view_enable",
+            },
+        ],
+    },
+]

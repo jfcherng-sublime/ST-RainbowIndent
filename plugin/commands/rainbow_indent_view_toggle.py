@@ -16,12 +16,18 @@ def set_activation_status(view: sublime.View, enabled: bool) -> None:
 class RainbowIndentViewDisableCommand(sublime_plugin.TextCommand):
     """Disables rendering for the current view explicitly."""
 
+    def is_checked(self) -> bool:
+        return self.view.settings().get(VIEW_KEY_USER_DISABLED) is True
+
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, False)
 
 
 class RainbowIndentViewEnableCommand(sublime_plugin.TextCommand):
     """Enables rendering for the current view explicitly."""
+
+    def is_checked(self) -> bool:
+        return self.view.settings().get(VIEW_KEY_USER_DISABLED) is False
 
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, True)

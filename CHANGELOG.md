@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.4] - 2024-05-22
+
+### 🚀 Features
+
+- Add context menu for force enable/disable for the view
+- Add new plugin setting: enabled_selector
+
+### 🚜 Refactor
+
+- Tidy codes
+
 ## [4169-0.1.3] - 2024-05-20
 
 ### 🚜 Refactor

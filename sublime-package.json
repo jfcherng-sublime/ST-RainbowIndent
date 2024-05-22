@@ -46,6 +46,11 @@
                   ],
                   "default": "block"
                 },
+                "enabled_selector": {
+                  "markdownDescription": "Enable this plugin in these base scopes. For the expression of a scope selector, see https://www.sublimetext.com/docs/selectors.html",
+                  "type": "string",
+                  "default": "source | text | embedding"
+                },
                 "file_size_limit": {
                   "markdownDescription": "The max file size to enable the plugin. Set to negative value to disable the limit.",
                   "type": "integer",

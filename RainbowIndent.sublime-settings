@@ -12,6 +12,9 @@
     ],
     // Style of the indent indicator. Can be "line" or "block".
     "level_style": "block",
+    // Enable this plugin in these base scopes.
+    // For the expression of a scope selector, see https://www.sublimetext.com/docs/selectors.html
+    "enabled_selector": "source | text | embedding",
     // The max file size to enable the plugin. Set to negative value to disable the limit.
     "file_size_limit": 10485760, // about 10 MB
 }

@@ -15,6 +15,8 @@ def is_renderable_view(view: sublime.View) -> bool:
         view.is_valid()
         and view.element() is None
         and not is_transient_view(view)
+        and (syntax := view.syntax())
+        and sublime.score_selector(syntax.scope, get_enabled_selector()) > 0
         and not (0 <= get_file_size_limit() < view.size())
     )
 

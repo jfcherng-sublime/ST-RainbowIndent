@@ -45,6 +45,10 @@ def get_debounce_time() -> float:
     return float(get_plugin_setting("debounce", 0.2))
 
 
+def get_enabled_selector() -> str:
+    return get_plugin_setting("enabled_selector", "")
+
+
 def get_level_colors() -> list[str]:
     return get_plugin_setting("level_colors", []) or LEVEL_COLORS_FALLBACK
 

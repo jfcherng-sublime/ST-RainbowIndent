@@ -90,6 +90,17 @@ Valid color formats are listed on [Sublime Text's official document][st-docs-col
 },
 ```
 
+### How to Disable Rendering by Default and Enable Manually?
+
+You can set the `enabled_selector` plugin setting to `"nothing"`.
+Because no scope is named `nothing`, the plugin won't render indents.
+
+Then, you can enable rendering manually by one of the following ways.
+
+- From the command palette: `RainbowIndent: Disable for This View (Forced)`
+- From the context menu: `RainbowIndent` » `Disable for This View (Forced)`
+- Create and trigger a keybinding for the `rainbow_indent_view_toggle` command for convenience.
+
 ## Known Issues
 
 - There is no way to draw a region, where there is nothing, via ST's plugin APIs.

@@ -1,2 +1,2 @@
 more-itertools>=10,<11
-typing-extensions>=4.11
+typing-extensions>=4.12

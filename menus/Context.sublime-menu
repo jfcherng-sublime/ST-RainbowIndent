@@ -4,11 +4,11 @@
         "caption": "RainbowIndent",
         "children": [
             {
-                "caption": "Disable for This View",
+                "caption": "Disable for This View (Forced)",
                 "command": "rainbow_indent_view_disable",
             },
             {
-                "caption": "Enable for This View",
+                "caption": "Enable for This View (Forced)",
                 "command": "rainbow_indent_view_enable",
             },
         ],

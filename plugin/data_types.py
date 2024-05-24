@@ -12,6 +12,7 @@ from typing_extensions import Self
 
 POINT = int
 TUPLE_REGION = Tuple[POINT, POINT]
+INDENT_LEVEL = int
 
 if sys.version_info >= (3, 11):
     from enum import StrEnum
@@ -41,7 +42,7 @@ class IndentInfo:
 
     @cached_property
     def indent_pattern(self) -> str:
-        return rf"^({self.indent_chars})+"
+        return rf"^(?:{self.indent_chars})+"
 
     @cached_property
     def indent_pattern_compiled(self) -> Pattern[str]:

@@ -6,6 +6,7 @@ import sublime
 
 from .constants import LEVEL_COLORS_FALLBACK, PLUGIN_NAME
 from .data_types import LevelStyle
+from .log import log_warning
 from .utils import debounce
 
 _T = TypeVar("_T")
@@ -31,8 +32,6 @@ def get_plugin_setting(key: str) -> Any: ...
 def get_plugin_setting(key: str, default: None) -> Any: ...
 @overload
 def get_plugin_setting(key: str, default: _T) -> _T: ...
-
-
 def get_plugin_setting(key: str, default: Any = None) -> Any:
     return get_plugin_settings().get(key, default)
 
@@ -54,7 +53,12 @@ def get_level_colors() -> list[str]:
 
 
 def get_level_style() -> LevelStyle:
-    return LevelStyle(get_plugin_setting("level_style", "block"))
+    style = get_plugin_setting("level_style", "block")
+    try:
+        return LevelStyle(style)
+    except ValueError:
+        log_warning(f'Invalid "level_style" setting: {style}')
+        return LevelStyle.BLOCK
 
 
 def get_file_size_limit() -> int:

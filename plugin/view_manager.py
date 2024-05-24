@@ -6,7 +6,7 @@ from typing import Sequence
 
 import sublime
 
-from .data_types import IndentInfo, LevelStyle
+from .data_types import INDENT_LEVEL, IndentInfo, LevelStyle
 from .helpers import get_regions_key
 from .indent_renderer import AbstractIndentRenderer, find_indent_renderer
 from .settings import get_level_colors, get_level_style
@@ -17,9 +17,9 @@ def calcualte_level_regions(
     *,
     indent_info: IndentInfo | None = None,
     regions: Sequence[sublime.Region] | None = None,
-) -> defaultdict[int, list[sublime.Region]]:
+) -> defaultdict[INDENT_LEVEL, list[sublime.Region]]:
     """
-    Calculates the begin point of indents for each level.
+    Calculates regions of indents for each level.
 
     :param      view:         The view.
     :param      indent_info:  The indent information.
@@ -28,7 +28,7 @@ def calcualte_level_regions(
                               They should be whole lines, non-overlapping and sorted in ascending order beforehand.
                               If `None`, the whole region of the `view` will be used.
 
-    :returns:   A dictionary whose keys are the indent level and values are regions of level indents.
+    :returns:   A dictionary whose keys are the indent level (started from `0`) and values are regions of level indents.
     """
     if indent_info is None:
         indent_info = IndentInfo.from_view(view)
@@ -36,10 +36,10 @@ def calcualte_level_regions(
         regions = (sublime.Region(0, view.size()),)
 
     whole_content = view.substr(sublime.Region(0, view.size()))
-    level_regions: defaultdict[int, list[sublime.Region]] = defaultdict(list)
+    level_regions: defaultdict[INDENT_LEVEL, list[sublime.Region]] = defaultdict(list)
     for region in regions:
-        for m in indent_info.indent_pattern_compiled.finditer(whole_content, region.begin(), region.end()):
-            for level, level_pt in enumerate(range(m.start(), m.end(), indent_info.indent_length)):
+        for m in indent_info.indent_pattern_compiled.finditer(whole_content, *region.to_tuple()):
+            for level, level_pt in enumerate(range(*m.span(), indent_info.indent_length)):
                 level_regions[level].append(sublime.Region(level_pt, level_pt + indent_info.indent_length))
     return level_regions
 

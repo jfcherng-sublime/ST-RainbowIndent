@@ -13,7 +13,7 @@ def is_renderable_view(view: sublime.View) -> bool:
     # activation by plugin's logics
     return bool(
         view.is_valid()
-        and view.element() is None
+        and not view.element()
         and not is_transient_view(view)
         and (syntax := view.syntax())
         and sublime.score_selector(syntax.scope, get_enabled_selector()) > 0

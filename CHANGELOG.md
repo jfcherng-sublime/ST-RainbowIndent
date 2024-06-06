@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4169-0.1.5] - 2024-06-06
+
+### 🚜 Refactor
+
+- Tidy codes
+
+### 📚 Documentation
+
+- Add FAQ: How to Disable Rendering by Default and Enable Manually?
+
+### ⚙️ Miscellaneous Tasks
+
+- Revise menu wordings
+- Revise settings wording
+- Update deps
+
 ## [4169-0.1.4] - 2024-05-22
 
 ### 🚀 Features

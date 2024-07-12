@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import weakref
 from collections import defaultdict
-from typing import Sequence
+from typing import Iterable, Sequence
 
 import sublime
 
@@ -45,35 +45,43 @@ def calcualte_level_regions(
 
 
 class ViewManager:
-    __instances: dict[weakref.ref[sublime.View], ViewManager] = {}
+    __instances: weakref.WeakKeyDictionary[sublime.View, ViewManager] = weakref.WeakKeyDictionary()
+    """A map which maps managed `view` to its manager."""
 
     def __init__(self, view: sublime.View, *, _from_init: bool = True) -> None:
         if _from_init:
             raise ValueError("Use `get_instance()` instead.")
 
         self.view = view
+        """The managed `view`."""
         self.max_level = -1
+        """The max indent level of the managed `view`."""
 
     @classmethod
     def get_instance(cls, view: sublime.View) -> ViewManager:
-        view_proxy = weakref.proxy(view)
-        view_ref = weakref.ref(view)
-        if not cls.__instances.get(view_ref):
-            cls.__instances[view_ref] = cls(view_proxy, _from_init=False)
-        return cls.__instances[view_ref]
+        """Gets the manager instance of `view`. (per-view singleton pattern)"""
+        if view not in cls.__instances:
+            cls.__instances[view] = cls(view, _from_init=False)
+        return cls.__instances[view]
+
+    @classmethod
+    def clear_all_views(cls, views: Iterable[sublime.View] | None = None) -> None:
+        """Clears managed `views`. If `views` is `None`, clear all managed `views`."""
+        if views is None:
+            views = cls.__instances.keys()  # all managed views
+
+        for view in views:
+            if vm := cls.__instances.get(view):
+                vm.clear_view()
 
     def clear_view(self) -> None:
+        """Clears the managed `views`."""
         for level in range(self.max_level + 1):
             self.view.erase_regions(get_regions_key(level))
         self.max_level = -1
 
-    @classmethod
-    def clear_all_views(cls) -> None:
-        for vm in cls.__instances.values():
-            vm.clear_view()
-        cls.__instances.clear()
-
     def render_view(self) -> None:
+        """Renders the managed `view`."""
         renderer = self._get_renderer(get_level_style())
 
         level_colors = get_level_colors()

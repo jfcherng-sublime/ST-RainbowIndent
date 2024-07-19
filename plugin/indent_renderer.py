@@ -51,7 +51,7 @@ class AbstractIndentRenderer(ABC):
 
 
 class BlockIndentRenderer(AbstractIndentRenderer):
-    __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP | sublime.NO_UNDO
+    __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP
 
     @classmethod
     def can_support(cls, style: Any) -> bool:
@@ -73,7 +73,7 @@ class BlockIndentRenderer(AbstractIndentRenderer):
 
 
 class LineIndentRenderer(AbstractIndentRenderer):
-    __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP | sublime.NO_UNDO | sublime.DRAW_EMPTY
+    __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP | sublime.DRAW_EMPTY
 
     @classmethod
     def can_support(cls, style: Any) -> bool:

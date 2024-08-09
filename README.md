@@ -103,8 +103,7 @@ Then, you can enable rendering manually by one of the following ways.
 
 ## Known Issues
 
-- There is no way to draw a region, where there is nothing, via ST's plugin APIs.
-- Sometimes, ST seems to draw regions wrongly. Not sure how to stably reproduce this.
+- There is no way to draw a region, where is no character, via ST's plugin APIs.
 
 [package-control]: https://packagecontrol.io
 [st-docs-color-schemes-colors]: https://www.sublimetext.com/docs/color_schemes.html#colors

@@ -10,7 +10,7 @@ from .view_manager import ViewManager
 
 @debounce_by_settings
 def refresh_rendering(view: sublime.View) -> None:
-    vm = ViewManager.get_instance(view)
+    vm = ViewManager(view)
     if is_renderable_view(view):
         vm.render_view()
     else:

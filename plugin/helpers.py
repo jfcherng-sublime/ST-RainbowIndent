@@ -3,6 +3,7 @@ from __future__ import annotations
 import sublime
 
 from .constants import PLUGIN_NAME, VIEW_KEY_USER_DISABLED
+from .data_types import INDENT_LEVEL
 from .settings import get_enabled_selector, get_file_size_limit
 
 
@@ -25,5 +26,5 @@ def is_transient_view(view: sublime.View) -> bool:
     return bool((sheet := view.sheet()) and sheet.is_transient())
 
 
-def get_regions_key(level: int) -> str:
+def get_regions_key(level: INDENT_LEVEL) -> str:
     return f"{PLUGIN_NAME}:level@{level}"

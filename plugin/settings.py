@@ -53,11 +53,12 @@ def get_level_colors() -> list[str]:
 
 
 def get_level_style() -> LevelStyle:
-    style = get_plugin_setting("level_style", "block")
+    default_style = "block"
+    style = get_plugin_setting("level_style", default_style)
     try:
         return LevelStyle(style)
     except ValueError:
-        log_warning(f'Invalid "level_style" setting: {style}')
+        log_warning(f'Invalid "level_style" setting: {style}. "{default_style}" will be used.')
         return LevelStyle.BLOCK
 
 

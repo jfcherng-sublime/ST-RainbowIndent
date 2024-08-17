@@ -7,7 +7,7 @@ from typing import Any, Generator, Mapping, Sequence, final
 import sublime
 from more_itertools import first_true
 
-from .data_types import LevelStyle
+from .data_types import INDENT_LEVEL, LevelStyle
 from .helpers import get_regions_key
 from .utils import camel_to_snake, get_circular_nth, list_all_subclasses, remove_suffix
 
@@ -45,7 +45,7 @@ class AbstractIndentRenderer(ABC):
         self,
         *,
         level_colors: Sequence[str],
-        level_regions: Mapping[int, Sequence[sublime.Region]],
+        level_regions: Mapping[INDENT_LEVEL, Sequence[sublime.Region]],
     ) -> None:
         """Render the view based on the points of each level."""
 
@@ -61,7 +61,7 @@ class BlockIndentRenderer(AbstractIndentRenderer):
         self,
         *,
         level_colors: Sequence[str],
-        level_regions: Mapping[int, Sequence[sublime.Region]],
+        level_regions: Mapping[INDENT_LEVEL, Sequence[sublime.Region]],
     ) -> None:
         for level, regions in level_regions.items():
             self.view.add_regions(
@@ -83,7 +83,7 @@ class LineIndentRenderer(AbstractIndentRenderer):
         self,
         *,
         level_colors: Sequence[str],
-        level_regions: Mapping[int, Sequence[sublime.Region]],
+        level_regions: Mapping[INDENT_LEVEL, Sequence[sublime.Region]],
     ) -> None:
         for level, regions in level_regions.items():
             self.view.add_regions(

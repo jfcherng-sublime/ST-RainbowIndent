@@ -51,12 +51,10 @@ class IndentInfo:
     @classmethod
     def from_view(cls, view: sublime.View) -> Self:
         settings = view.settings()
-        tab_size = int(settings.get("tab_size", 4))
-        if settings.get("translate_tabs_to_spaces", False):
-            style = IndentStyle.SPACE
-        else:
-            style = IndentStyle.TAB
-        return cls(tab_size=tab_size, style=style)
+        return cls(
+            tab_size=int(settings.get("tab_size", 4)),
+            style=IndentStyle.SPACE if settings.get("translate_tabs_to_spaces", False) else IndentStyle.TAB,
+        )
 
 
 class IndentStyle(StrEnum):

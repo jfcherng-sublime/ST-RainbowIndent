@@ -5,6 +5,7 @@ from collections import defaultdict
 from typing import Iterable, Sequence
 
 import sublime
+from typing_extensions import Self
 
 from .data_types import INDENT_LEVEL, IndentInfo, LevelStyle
 from .helpers import get_regions_key
@@ -45,24 +46,27 @@ def calcualte_level_regions(
 
 
 class ViewManager:
-    __instances: weakref.WeakKeyDictionary[sublime.View, ViewManager] = weakref.WeakKeyDictionary()
+    __instances: weakref.WeakKeyDictionary[sublime.View, Self] = weakref.WeakKeyDictionary()
     """A map which maps managed `view` to its manager."""
 
-    def __init__(self, view: sublime.View, *, _from_init: bool = True) -> None:
-        if _from_init:
-            raise ValueError("Use `get_instance()` instead.")
+    # singleton pattern
+    def __new__(cls, view: sublime.View) -> Self:
+        if view not in cls.__instances:
+            instance = super().__new__(cls)
+            instance.__initialized = False
+            cls.__instances[view] = instance
+        return cls.__instances[view]
+
+    def __init__(self, view: sublime.View) -> None:
+        self.__initialized: bool
+        if self.__initialized:
+            return
+        self.__initialized = True
 
         self.view = view
         """The managed `view`."""
         self.max_level = -1
         """The max indent level of the managed `view`."""
-
-    @classmethod
-    def get_instance(cls, view: sublime.View) -> ViewManager:
-        """Gets the manager instance of `view`. (per-view singleton pattern)"""
-        if view not in cls.__instances:
-            cls.__instances[view] = cls(view, _from_init=False)
-        return cls.__instances[view]
 
     @classmethod
     def clear_all_views(cls, views: Iterable[sublime.View] | None = None) -> None:

@@ -1,3 +1,23 @@
+[project]
+name = "RainbowIndent"
+version = "0.0.0"
+description = "Makes indentation easier to read."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "more-itertools>=10,<11",
+  "typing-extensions>=4.11",
+]
+
+[dependency-groups]
+dev = [
+  "mypy>=1.14",
+  "ruff>=0.13",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
 [tool.mypy]
 # ignore_missing_imports = False
 check_untyped_defs = true

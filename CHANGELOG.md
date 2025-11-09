@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4201-1.0.0] - 2025-11-09
+
+### 🚜 Refactor
+
+- Makefile use uv more
+- Tidy codes
+- Use py313 features
+
+### 📚 Documentation
+
+- Update license year
+- Update readme
+
+### ⚙️ Miscellaneous Tasks
+
+- Bump py313
+- Change CI system Python to 3.13
+- Update .gitattributes
+- Update deps
+
 ## [4169-0.1.6] - 2024-07-19
 
 ### 🐛 Bug Fixes

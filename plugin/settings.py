@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable, TypeVar, cast, overload
+from collections.abc import Callable
+from typing import Any, cast, overload
 
 import sublime
 
@@ -9,11 +10,8 @@ from .data_types import LevelStyle
 from .log import log_warning
 from .utils import debounce
 
-_T = TypeVar("_T")
-_T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 
-
-def debounce_by_settings(func: _T_Callable) -> _T_Callable:
+def debounce_by_settings[T: Callable](func: T) -> T:
     """Debounce a function so that it's called once in seconds defined in the plugin settings."""
 
     def debounced(*args: Any, **kwargs: Any) -> Any:
@@ -23,7 +21,7 @@ def debounce_by_settings(func: _T_Callable) -> _T_Callable:
             return debounce(time_s)(func)(*args, **kwargs)
         return func(*args, **kwargs)
 
-    return cast(_T_Callable, debounced)
+    return cast(T, debounced)
 
 
 @overload
@@ -31,7 +29,7 @@ def get_plugin_setting(key: str) -> Any: ...
 @overload
 def get_plugin_setting(key: str, default: None) -> Any: ...
 @overload
-def get_plugin_setting(key: str, default: _T) -> _T: ...
+def get_plugin_setting[T](key: str, default: T) -> T: ...
 def get_plugin_setting(key: str, default: Any = None) -> Any:
     return get_plugin_settings().get(key, default)
 

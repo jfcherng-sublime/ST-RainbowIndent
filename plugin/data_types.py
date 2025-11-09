@@ -1,26 +1,17 @@
 from __future__ import annotations
 
 import re
-import sys
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum  # type: ignore
 from functools import cached_property
-from typing import Pattern, Tuple
+from re import Pattern
+from typing import Self
 
 import sublime
-from typing_extensions import Self
 
-POINT = int
-TUPLE_REGION = Tuple[POINT, POINT]
-INDENT_LEVEL = int
-
-if sys.version_info >= (3, 11):
-    from enum import StrEnum
-else:
-
-    class StrEnum(str, Enum):
-        __str__ = str.__str__  # type: ignore
-        __format__ = str.__format__  # type: ignore
+type POINT = int
+type TUPLE_REGION = tuple[POINT, POINT]
+type INDENT_LEVEL = int
 
 
 @dataclass(frozen=True)

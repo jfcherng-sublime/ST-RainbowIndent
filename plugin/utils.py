@@ -1,27 +1,20 @@
 from __future__ import annotations
 
 import inspect
-import sys
 import threading
+from collections.abc import Callable, Generator, Iterable, Sequence
 from functools import wraps
-from typing import Any, Callable, Generator, Iterable, Sequence, TypeVar, cast
+from typing import Any, cast
 
 import sublime
 
-_T = TypeVar("_T")
-_T_Callable = TypeVar("_T_Callable", bound=Callable[..., Any])
 
-
-def get_circular_nth(seq: Sequence[_T], n: int) -> _T:
+def get_circular_nth[T](seq: Sequence[T], n: int) -> T:
     """Gets the nth element in a sequence circularly."""
     return seq[n % len(seq)]
 
 
-def list_all_subclasses(
-    root: type[_T],
-    skip_abstract: bool = False,
-    skip_self: bool = False,
-) -> Generator[type[_T], None, None]:
+def list_all_subclasses[T](root: type[T], skip_abstract: bool = False, skip_self: bool = False) -> Generator[type[T]]:
     """Gets all sub-classes of the root class."""
     if not skip_self and not (skip_abstract and inspect.isabstract(root)):
         yield root
@@ -40,22 +33,7 @@ def snake_to_camel(s: str, *, upper_first: bool = True) -> str:
     return (first.title() if upper_first else first.lower()) + "".join(map(str.title, others))
 
 
-if sys.version_info >= (3, 9):
-    remove_prefix = str.removeprefix
-    remove_suffix = str.removesuffix
-else:
-
-    def remove_prefix(s: str, prefix: str) -> str:
-        """Remove the prefix from the string. I.e., str.removeprefix in Python 3.9."""
-        return s[len(prefix) :] if s.startswith(prefix) else s
-
-    def remove_suffix(s: str, suffix: str) -> str:
-        """Remove the suffix from the string. I.e., str.removesuffix in Python 3.9."""
-        # suffix="" should not call s[:-0]
-        return s[: -len(suffix)] if suffix and s.endswith(suffix) else s
-
-
-def debounce(time_s: float = 0.3) -> Callable[[_T_Callable], _T_Callable]:
+def debounce[T: Callable](time_s: float = 0.3) -> Callable[[T], T]:
     """
     Debounce a function so that it's called after `time_s` seconds.
     If it's called multiple times in the time frame, it will only run the last call.
@@ -63,7 +41,7 @@ def debounce(time_s: float = 0.3) -> Callable[[_T_Callable], _T_Callable]:
     Taken and modified from https://github.com/salesforce/decorator-operations
     """
 
-    def decorator(func: _T_Callable) -> _T_Callable:
+    def decorator(func: T) -> T:
         @wraps(func)
         def debounced(*args: Any, **kwargs: Any) -> None:
             def call_function() -> Any:
@@ -78,7 +56,7 @@ def debounce(time_s: float = 0.3) -> Callable[[_T_Callable], _T_Callable]:
             setattr(debounced, "_timer", timer)
 
         setattr(debounced, "_timer", None)
-        return cast(_T_Callable, debounced)
+        return cast(T, debounced)
 
     return decorator
 
@@ -87,7 +65,7 @@ def list_views(
     windows: Iterable[sublime.Window] | None = None,
     *,
     include_transient: bool = False,
-) -> Generator[sublime.View, None, None]:
+) -> Generator[sublime.View]:
     """List all views in `windows`. If `windows` is `None`, then all windows."""
     if windows is None:
         windows = sublime.windows()

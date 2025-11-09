@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import weakref
 from collections import defaultdict
-from typing import Iterable, Sequence
+from collections.abc import Iterable, Sequence
+from typing import Self
 
 import sublime
-from typing_extensions import Self
 
 from .data_types import INDENT_LEVEL, IndentInfo, LevelStyle
 from .helpers import get_regions_key

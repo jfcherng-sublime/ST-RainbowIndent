@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from enum import StrEnum  # type: ignore
+from enum import StrEnum
 from functools import cached_property
 from re import Pattern
 from typing import Self
@@ -21,11 +21,11 @@ class IndentInfo:
 
     @cached_property
     def indent_chars(self) -> str:
-        if self.style is IndentStyle.SPACE:
-            return " " * self.tab_size
-        if self.style is IndentStyle.TAB:
-            return "\t"
-        raise ValueError(f"Unknown indent style: {self.style}")
+        match self.style:
+            case IndentStyle.SPACE:
+                return " " * self.tab_size
+            case IndentStyle.TAB:
+                return "\t"
 
     @cached_property
     def indent_length(self) -> int:

@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Generator, Mapping, Sequence
 from functools import cache
-from typing import Any, final
+from typing import Any, final, override
 
 import sublime
 from more_itertools import first_true
@@ -13,8 +13,8 @@ from .helpers import get_regions_key
 from .utils import camel_to_snake, get_circular_nth, list_all_subclasses
 
 
-def find_indent_renderer(obj: Any) -> type[AbstractIndentRenderer] | None:
-    return first_true(get_indent_rendereres(), pred=lambda t: t.can_support(obj))
+def find_indent_renderer(style: LevelStyle) -> type[AbstractIndentRenderer] | None:
+    return first_true(get_indent_rendereres(), pred=lambda t: t.can_support(style))
 
 
 @cache
@@ -23,7 +23,7 @@ def get_indent_rendereres() -> tuple[type[AbstractIndentRenderer], ...]:
 
 
 def list_indent_rendereres() -> Generator[type[AbstractIndentRenderer]]:
-    yield from list_all_subclasses(AbstractIndentRenderer, skip_abstract=True)  # type: ignore
+    yield from list_all_subclasses(AbstractIndentRenderer, skip_abstract=True)  # type: ignore[type-abstract]
 
 
 class AbstractIndentRenderer(ABC):
@@ -38,7 +38,7 @@ class AbstractIndentRenderer(ABC):
 
     @classmethod
     @abstractmethod
-    def can_support(cls, style: Any) -> bool:
+    def can_support(cls, style: LevelStyle) -> bool:
         """Check if this renderer can support the given style."""
 
     @abstractmethod
@@ -54,10 +54,12 @@ class AbstractIndentRenderer(ABC):
 class BlockIndentRenderer(AbstractIndentRenderer):
     __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP
 
+    @override
     @classmethod
-    def can_support(cls, style: Any) -> bool:
-        return str(style) == LevelStyle.BLOCK
+    def can_support(cls, style: LevelStyle) -> bool:
+        return style is LevelStyle.BLOCK
 
+    @override
     def render(
         self,
         *,
@@ -76,10 +78,12 @@ class BlockIndentRenderer(AbstractIndentRenderer):
 class LineIndentRenderer(AbstractIndentRenderer):
     __ADD_REGION_FLAGS = sublime.DRAW_NO_OUTLINE | sublime.HIDE_ON_MINIMAP | sublime.DRAW_EMPTY
 
+    @override
     @classmethod
     def can_support(cls, style: Any) -> bool:
-        return str(style) == LevelStyle.LINE
+        return style is LevelStyle.LINE
 
+    @override
     def render(
         self,
         *,

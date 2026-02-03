@@ -13,7 +13,7 @@ from .indent_renderer import AbstractIndentRenderer, find_indent_renderer
 from .settings import get_level_colors, get_level_style
 
 
-def calcualte_level_regions(
+def calculate_level_regions(
     view: sublime.View,
     *,
     indent_info: IndentInfo | None = None,
@@ -89,7 +89,7 @@ class ViewManager:
         renderer = self._get_renderer(get_level_style())
 
         level_colors = get_level_colors()
-        level_regions = calcualte_level_regions(self.view)
+        level_regions = calculate_level_regions(self.view)
         self.max_level = max(level_regions.keys(), default=-1)
 
         renderer.render(level_colors=level_colors, level_regions=level_regions)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import override
+
 import sublime
 import sublime_plugin
 
@@ -16,9 +18,11 @@ def set_activation_status(view: sublime.View, enabled: bool) -> None:
 class RainbowIndentViewDisableCommand(sublime_plugin.TextCommand):
     """Disables rendering for the current view explicitly."""
 
+    @override
     def is_checked(self) -> bool:
         return self.view.settings().get(VIEW_KEY_USER_DISABLED) is True
 
+    @override
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, False)
 
@@ -26,9 +30,11 @@ class RainbowIndentViewDisableCommand(sublime_plugin.TextCommand):
 class RainbowIndentViewEnableCommand(sublime_plugin.TextCommand):
     """Enables rendering for the current view explicitly."""
 
+    @override
     def is_checked(self) -> bool:
         return self.view.settings().get(VIEW_KEY_USER_DISABLED) is False
 
+    @override
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, True)
 
@@ -36,5 +42,6 @@ class RainbowIndentViewEnableCommand(sublime_plugin.TextCommand):
 class RainbowIndentViewToggleCommand(sublime_plugin.TextCommand):
     """Toggles the rendering status of this plugin for the current view explicitly."""
 
+    @override
     def run(self, edit: sublime.Edit) -> None:
         set_activation_status(self.view, self.view.settings().get(VIEW_KEY_USER_DISABLED, False))

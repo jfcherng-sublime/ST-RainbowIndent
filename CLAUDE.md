@@ -49,7 +49,7 @@ There are no unit tests in this project. CI runs mypy and ruff only.
 
 ## Code Conventions
 
-- Python 3.13+ features: `from __future__ import annotations` in every file, `match` statements, `type` aliases, `@override`, `Self`
+- Python 3.14+ features: lazy annotation evaluation via PEP 649 (no `from __future__ import annotations` needed), `match` statements, `type` aliases, `@override`, `Self`
 - Strict mypy with custom type stubs in `typings/`
 - Ruff: line length 120, preview mode, rules: E/F/W/I/UP/FURB/SIM
 - Conventional commits (`feat:`, `fix:`, `refactor:`, `chore:`, etc.)

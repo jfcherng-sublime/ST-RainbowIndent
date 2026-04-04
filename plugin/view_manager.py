@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import weakref
 from collections import defaultdict
 from collections.abc import Iterable, Sequence

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import sublime
 import sublime_plugin
 

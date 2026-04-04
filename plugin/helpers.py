@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import sublime
 
 from .constants import PLUGIN_NAME, VIEW_KEY_USER_DISABLED

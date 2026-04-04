@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4203-2.0.0] - 2026-04-04
+
+Python 3.14 (ST>=4203) is required.
+
+### 🐛 Bug Fixes
+
+- Suppress mypy error in type stubs for importlib.abc.ResourceReader
+
+### 🚜 Refactor
+
+- Remove redundant from __future__ import annotations
+- Tidy codes
+
+### 📚 Documentation
+
+- Update CLAUDE.md to reflect Python 3.14 features (PEP 649)
+
+### ⚙️ Miscellaneous Tasks
+
+- Add CLAUDE.md
+- Remove unused typing-extensions runtime dependency
+- Update deps
+- Update deps (py314)
+- Update license year
+
 ## [4201-1.0.0] - 2025-11-09
 
 ### 🚜 Refactor

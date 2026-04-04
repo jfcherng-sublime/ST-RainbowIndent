@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
   "more-itertools>=11,<12",
-  "typing-extensions>=4.11",
 ]
 
 [dependency-groups]

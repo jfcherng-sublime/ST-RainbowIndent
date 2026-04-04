@@ -98,7 +98,6 @@ version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "more-itertools" },
-    { name = "typing-extensions" },
 ]
 
 [package.dev-dependencies]
@@ -108,10 +107,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "more-itertools", specifier = ">=11,<12" },
-    { name = "typing-extensions", specifier = ">=4.11" },
-]
+requires-dist = [{ name = "more-itertools", specifier = ">=11,<12" }]
 
 [package.metadata.requires-dev]
 dev = [

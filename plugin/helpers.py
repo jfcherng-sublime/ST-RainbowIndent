@@ -1,8 +1,10 @@
 import sublime
 
-from .constants import PLUGIN_NAME, VIEW_KEY_USER_DISABLED
+from .constants import PLUGIN_NAME
+from .constants import VIEW_KEY_USER_DISABLED
 from .data_types import INDENT_LEVEL
-from .settings import get_enabled_selector, get_file_size_limit
+from .settings import get_enabled_selector
+from .settings import get_file_size_limit
 
 
 def is_renderable_view(view: sublime.View) -> bool:

@@ -1,9 +1,12 @@
 from collections.abc import Callable
-from typing import Any, cast, overload
+from typing import Any
+from typing import cast
+from typing import overload
 
 import sublime
 
-from .constants import LEVEL_COLORS_FALLBACK, PLUGIN_NAME
+from .constants import LEVEL_COLORS_FALLBACK
+from .constants import PLUGIN_NAME
 from .data_types import LevelStyle
 from .log import log_warning
 from .utils import debounce

@@ -1,8 +1,12 @@
 import inspect
 import threading
-from collections.abc import Callable, Generator, Iterable, Sequence
+from collections.abc import Callable
+from collections.abc import Generator
+from collections.abc import Iterable
+from collections.abc import Sequence
 from functools import wraps
-from typing import Any, cast
+from typing import Any
+from typing import cast
 
 import sublime
 

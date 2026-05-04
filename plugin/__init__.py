@@ -1,8 +1,6 @@
-from .commands import (
-    RainbowIndentViewDisableCommand,
-    RainbowIndentViewEnableCommand,
-    RainbowIndentViewToggleCommand,
-)
+from .commands import RainbowIndentViewDisableCommand
+from .commands import RainbowIndentViewEnableCommand
+from .commands import RainbowIndentViewToggleCommand
 from .indent_renderer import AbstractIndentRenderer
 from .listener import RainbowIndentEventListener
 from .view_manager import ViewManager

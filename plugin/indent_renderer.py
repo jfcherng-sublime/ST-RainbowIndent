@@ -1,14 +1,22 @@
-from abc import ABC, abstractmethod
-from collections.abc import Generator, Mapping, Sequence
+from abc import ABC
+from abc import abstractmethod
+from collections.abc import Generator
+from collections.abc import Mapping
+from collections.abc import Sequence
 from functools import cache
-from typing import Any, final, override
+from typing import Any
+from typing import final
+from typing import override
 
 import sublime
 from more_itertools import first_true
 
-from .data_types import INDENT_LEVEL, LevelStyle
+from .data_types import INDENT_LEVEL
+from .data_types import LevelStyle
 from .helpers import get_regions_key
-from .utils import camel_to_snake, get_circular_nth, list_all_subclasses
+from .utils import camel_to_snake
+from .utils import get_circular_nth
+from .utils import list_all_subclasses
 
 
 def find_indent_renderer(style: LevelStyle) -> type[AbstractIndentRenderer] | None:

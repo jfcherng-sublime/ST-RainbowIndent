@@ -1,14 +1,19 @@
 import weakref
 from collections import defaultdict
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable
+from collections.abc import Sequence
 from typing import Self
 
 import sublime
 
-from .data_types import INDENT_LEVEL, IndentInfo, LevelStyle
+from .data_types import INDENT_LEVEL
+from .data_types import IndentInfo
+from .data_types import LevelStyle
 from .helpers import get_regions_key
-from .indent_renderer import AbstractIndentRenderer, find_indent_renderer
-from .settings import get_level_colors, get_level_style
+from .indent_renderer import AbstractIndentRenderer
+from .indent_renderer import find_indent_renderer
+from .settings import get_level_colors
+from .settings import get_level_style
 
 
 def calculate_level_regions(

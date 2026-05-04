@@ -2,9 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [4203-2.0.0] - 2026-04-04
+## [4203-2.0.1] - 2026-05-04
 
-Python 3.14 (ST>=4203) is required.
+### 🚜 Refactor
+
+- Tidy codes
+
+### 🎨 Styling
+
+- One import per line
+
+### ⚙️ Miscellaneous Tasks
+
+- Fix typos
+- Update deps
+
+## [4203-2.0.0] - 2026-04-04
 
 ### 🐛 Bug Fixes
 

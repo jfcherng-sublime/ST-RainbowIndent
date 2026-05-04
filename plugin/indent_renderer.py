@@ -12,15 +12,15 @@ from .utils import camel_to_snake, get_circular_nth, list_all_subclasses
 
 
 def find_indent_renderer(style: LevelStyle) -> type[AbstractIndentRenderer] | None:
-    return first_true(get_indent_rendereres(), pred=lambda t: t.can_support(style))
+    return first_true(get_indent_renderers(), pred=lambda t: t.can_support(style))
 
 
 @cache
-def get_indent_rendereres() -> tuple[type[AbstractIndentRenderer], ...]:
-    return tuple(sorted(list_indent_rendereres(), key=lambda cls: cls.name()))
+def get_indent_renderers() -> tuple[type[AbstractIndentRenderer], ...]:
+    return tuple(sorted(list_indent_renderers(), key=lambda cls: cls.name()))
 
 
-def list_indent_rendereres() -> Generator[type[AbstractIndentRenderer]]:
+def list_indent_renderers() -> Generator[type[AbstractIndentRenderer]]:
     yield from list_all_subclasses(AbstractIndentRenderer, skip_abstract=True)  # type: ignore[type-abstract]
 
 

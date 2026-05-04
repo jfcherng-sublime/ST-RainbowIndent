@@ -40,20 +40,22 @@ def debounce[T: Callable](time_s: float = 0.3) -> Callable[[T], T]:
     """
 
     def decorator(func: T) -> T:
+        _timer: threading.Timer | None = None
+
         @wraps(func)
         def debounced(*args: Any, **kwargs: Any) -> None:
+            nonlocal _timer
+            if _timer is not None:
+                _timer.cancel()
+
             def call_function() -> Any:
-                delattr(debounced, "_timer")
+                nonlocal _timer
+                _timer = None
                 return func(*args, **kwargs)
 
-            if timer := getattr(debounced, "_timer", None):
-                timer.cancel()
+            _timer = threading.Timer(time_s, call_function)
+            _timer.start()
 
-            timer = threading.Timer(time_s, call_function)
-            timer.start()
-            setattr(debounced, "_timer", timer)
-
-        setattr(debounced, "_timer", None)
         return cast(T, debounced)
 
     return decorator

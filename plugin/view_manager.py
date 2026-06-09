@@ -12,6 +12,7 @@ from .data_types import LevelStyle
 from .helpers import get_regions_key
 from .indent_renderer import AbstractIndentRenderer
 from .indent_renderer import find_indent_renderer
+from .log import log_error
 from .settings import get_level_colors
 from .settings import get_level_style
 
@@ -70,6 +71,8 @@ class ViewManager:
         """The managed `view`."""
         self.max_level = -1
         """The max indent level of the managed `view`."""
+        self.last_change_count: int = -1
+        """The view change count at last render, used to skip redundant renders."""
 
     @classmethod
     def clear_all_views(cls, views: Iterable[sublime.View] | None = None) -> None:
@@ -84,18 +87,25 @@ class ViewManager:
     def clear_view(self) -> None:
         """Clears the managed `views`."""
         for level in range(self.max_level + 1):
-            self.view.erase_regions(get_regions_key(level))
+            try:
+                self.view.erase_regions(get_regions_key(level))
+            except Exception:
+                log_error(f"Failed to erase regions for level {level}")
         self.max_level = -1
 
     def render_view(self) -> None:
         """Renders the managed `view`."""
-        renderer = self._get_renderer(get_level_style())
+        try:
+            renderer = self._get_renderer(get_level_style())
 
-        level_colors = get_level_colors()
-        level_regions = calculate_level_regions(self.view)
-        self.max_level = max(level_regions.keys(), default=-1)
+            level_colors = get_level_colors()
+            level_regions = calculate_level_regions(self.view)
+            self.max_level = max(level_regions.keys(), default=-1)
 
-        renderer.render(level_colors=level_colors, level_regions=level_regions)
+            renderer.render(level_colors=level_colors, level_regions=level_regions)
+            self.last_change_count = self.view.change_count()
+        except Exception:
+            log_error("Failed to render view")
 
     def _get_renderer(self, level_style: LevelStyle) -> AbstractIndentRenderer:
         if not (renderer_cls := find_indent_renderer(level_style)):

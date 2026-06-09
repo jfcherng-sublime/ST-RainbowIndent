@@ -43,3 +43,6 @@ jobs:
       - name: Do linting
         run: |
           make ci-check
+      - name: Run tests
+        run: |
+          uv run --dev pytest

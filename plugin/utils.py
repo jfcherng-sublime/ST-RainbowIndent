@@ -1,5 +1,4 @@
 import inspect
-import threading
 from collections.abc import Callable
 from collections.abc import Generator
 from collections.abc import Iterable
@@ -13,6 +12,8 @@ import sublime
 
 def get_circular_nth[T](seq: Sequence[T], n: int) -> T:
     """Gets the nth element in a sequence circularly."""
+    if not seq:
+        raise ValueError("Cannot get circular nth from an empty sequence")
     return seq[n % len(seq)]
 
 
@@ -40,25 +41,26 @@ def debounce[T: Callable](time_s: float = 0.3) -> Callable[[T], T]:
     Debounce a function so that it's called after `time_s` seconds.
     If it's called multiple times in the time frame, it will only run the last call.
 
-    Taken and modified from https://github.com/salesforce/decorator-operations
+    Uses a generation counter because ``sublime.set_timeout_async`` callbacks
+    cannot be cancelled once scheduled.
     """
 
     def decorator(func: T) -> T:
-        _timer: threading.Timer | None = None
+        _call_id: int = 0
 
         @wraps(func)
         def debounced(*args: Any, **kwargs: Any) -> None:
-            nonlocal _timer
-            if _timer is not None:
-                _timer.cancel()
+            nonlocal _call_id
+            _call_id += 1
+            captured_id = _call_id
 
             def call_function() -> Any:
-                nonlocal _timer
-                _timer = None
+                nonlocal _call_id
+                if captured_id != _call_id:
+                    return  # a newer call superseded this one
                 return func(*args, **kwargs)
 
-            _timer = threading.Timer(time_s, call_function)
-            _timer.start()
+            sublime.set_timeout_async(call_function, int(time_s * 1000))
 
         return cast(T, debounced)
 

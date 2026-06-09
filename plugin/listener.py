@@ -17,7 +17,10 @@ def refresh_rendering(view: sublime.View) -> None:
 
 class RainbowIndentEventListener(sublime_plugin.ViewEventListener):
     def on_activated_async(self) -> None:
-        refresh_rendering(self.view)
+        # Skip re-render if the view content hasn't changed since last activation
+        vm = ViewManager(self.view)
+        if vm.last_change_count != self.view.change_count():
+            refresh_rendering(self.view)
 
     def on_load_async(self) -> None:
         refresh_rendering(self.view)

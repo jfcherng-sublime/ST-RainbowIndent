@@ -50,6 +50,11 @@ ci-fix-unsafe:
 	@echo "========== fix: ruff (format) =========="
 	$(ci-base-cmd) ruff format .
 
+.PHONY: ci-test
+ci-test:
+	@echo "========== unit tests =========="
+	$(ci-base-cmd) pytest
+
 # ---- #
 # misc #
 # ---- #

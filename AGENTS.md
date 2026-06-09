@@ -4,7 +4,7 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## Project Overview
 
-ST-RainbowIndent is a Sublime Text 4 plugin that colorizes indentation levels for easier reading (clone of VSCode's "Indent Rainbow"). Requires Sublime Text build 4169+ and Python 3.13+.
+ST-RainbowIndent is a Sublime Text 4 plugin that colorizes indentation levels for easier reading (clone of VSCode's "Indent Rainbow"). Requires Sublime Text build 4203+ and Python 3.14+.
 
 ## Development Commands
 
@@ -15,6 +15,9 @@ make install-all          # All dependency groups
 
 # Run all CI checks (mypy + ruff lint + ruff format)
 make ci-check
+
+# Run all unit tests
+make ci-test
 
 # Individual checks
 uv run --dev mypy -p plugin
@@ -29,7 +32,7 @@ make ci-fix-unsafe        # Include unsafe fixes
 make update-changelog
 ```
 
-There are no unit tests in this project. CI runs mypy and ruff only.
+Unit tests use pytest with a mock ``sublime`` module (see ``tests/__init__.py``). CI runs mypy, ruff, and pytest.
 
 ## Architecture
 

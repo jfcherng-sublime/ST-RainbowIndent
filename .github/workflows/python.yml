@@ -12,6 +12,8 @@ on:
       - '**.py'
       - '**.pyi'
       - 'Makefile'
+      - 'pyproject.toml'
+      - 'uv.lock'
   pull_request:
     branches:
       - '**'
@@ -20,6 +22,8 @@ on:
       - '**.py'
       - '**.pyi'
       - 'Makefile'
+      - 'pyproject.toml'
+      - 'uv.lock'
 
 jobs:
   job_lint:

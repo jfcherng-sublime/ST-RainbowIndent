@@ -45,8 +45,11 @@ class RainbowIndentViewToggleCommand(sublime_plugin.TextCommand):
     def run(self, edit: sublime.Edit) -> None:
         current_disabled = self.view.settings().get(VIEW_KEY_USER_DISABLED)
         # If the key is not set, the view is enabled by default -> toggle to disabled
-        # If the key IS set, flip the current state
+        # If the key IS set, flip the current state.
+        # `set_activation_status(view, enabled)` stores `not enabled`, so to flip
+        # `current_disabled` we must pass `current_disabled` itself as `enabled`,
+        # NOT `not current_disabled` (that cancels out to a no-op every time).
         if current_disabled is None:
             set_activation_status(self.view, False)
         else:
-            set_activation_status(self.view, not current_disabled)
+            set_activation_status(self.view, current_disabled)

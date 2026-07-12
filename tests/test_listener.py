@@ -7,7 +7,9 @@ import pytest
 import plugin.listener as listener_module
 import tests as sublime_mock
 from plugin.constants import VIEW_KEY_USER_DISABLED
+from plugin.helpers import get_regions_key
 from plugin.listener import refresh_all_views
+from plugin.listener import refresh_rendering
 
 
 def _make_disabled_view() -> sublime_mock.View:
@@ -63,3 +65,28 @@ class TestRefreshAllViews:
             sublime_mock._windows.clear()
 
         assert processed == [good_view.id()]
+
+
+class TestRefreshRendering:
+    def test_renders_a_renderable_view(self) -> None:
+        view = sublime_mock.View(content="    x\n", syntax_scope="source.python")
+        view.settings().set("tab_size", 4)
+        view.settings().set("translate_tabs_to_spaces", True)
+        sublime_mock.scheduled_calls.clear()
+
+        refresh_rendering(view)
+        for callback, _timeout_ms in sublime_mock.scheduled_calls:
+            callback()
+
+        assert view.regions[get_regions_key(0)] == [sublime_mock.Region(0, 4)]
+
+    def test_clears_a_non_renderable_view(self) -> None:
+        view = sublime_mock.View()
+        view.settings().set(VIEW_KEY_USER_DISABLED, True)
+        sublime_mock.scheduled_calls.clear()
+
+        refresh_rendering(view)  # must not raise
+        for callback, _timeout_ms in sublime_mock.scheduled_calls:
+            callback()
+
+        assert view.regions == {}

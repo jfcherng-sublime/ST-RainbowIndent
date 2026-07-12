@@ -19,8 +19,8 @@ _sublime_plugin = types.ModuleType("sublime_plugin")
 class _ViewEventListener:
     """Mock for sublime_plugin.ViewEventListener."""
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, view: tests.View) -> None:
+        self.view = view
 
 
 class _TextCommand:

@@ -3,7 +3,18 @@
 from __future__ import annotations
 
 import tests as sublime_mock
+from plugin.data_types import LevelStyle
 from plugin.settings import debounce_by_settings
+from plugin.settings import get_debounce_time
+from plugin.settings import get_enabled_selector
+from plugin.settings import get_file_size_limit
+from plugin.settings import get_level_colors
+from plugin.settings import get_level_style
+from plugin.settings import get_plugin_settings
+
+
+def _reset_plugin_settings() -> None:
+    get_plugin_settings().data.clear()
 
 
 class TestDebounceBySettings:
@@ -77,3 +88,70 @@ class TestDebounceBySettings:
 
         assert calls_a == [1]
         assert calls_b == [1]
+
+    def test_debounce_disabled_runs_synchronously(self) -> None:
+        """A debounce of 0 must bypass scheduling entirely and run inline."""
+        calls: list[int] = []
+        view = sublime_mock.View()
+
+        @debounce_by_settings
+        def record(v: sublime_mock.View, n: int) -> None:
+            calls.append(n)
+
+        _reset_plugin_settings()
+        get_plugin_settings().set("debounce", 0)
+        sublime_mock.scheduled_calls.clear()
+        try:
+            record(view, 1)
+        finally:
+            _reset_plugin_settings()
+
+        assert calls == [1]
+        assert sublime_mock.scheduled_calls == []
+
+
+class TestSettingsGetters:
+    def setup_method(self) -> None:
+        _reset_plugin_settings()
+
+    def teardown_method(self) -> None:
+        # get_plugin_settings() is cached process-wide, so leftover values here
+        # would otherwise leak into tests in other modules.
+        _reset_plugin_settings()
+
+    def test_get_debounce_time_default(self) -> None:
+        assert get_debounce_time() == 0.2
+
+    def test_get_debounce_time_custom(self) -> None:
+        get_plugin_settings().set("debounce", 1.5)
+        assert get_debounce_time() == 1.5
+
+    def test_get_enabled_selector_default(self) -> None:
+        assert get_enabled_selector() == ""
+
+    def test_get_level_colors_default_falls_back(self) -> None:
+        from plugin.constants import LEVEL_COLORS_FALLBACK
+
+        assert get_level_colors() == LEVEL_COLORS_FALLBACK
+
+    def test_get_level_colors_custom(self) -> None:
+        get_plugin_settings().set("level_colors", ["region.redish", "region.greenish"])
+        assert get_level_colors() == ["region.redish", "region.greenish"]
+
+    def test_get_level_style_default(self) -> None:
+        assert get_level_style() is LevelStyle.BLOCK
+
+    def test_get_level_style_line(self) -> None:
+        get_plugin_settings().set("level_style", "line")
+        assert get_level_style() is LevelStyle.LINE
+
+    def test_get_level_style_invalid_falls_back_to_block(self) -> None:
+        get_plugin_settings().set("level_style", "not-a-real-style")
+        assert get_level_style() is LevelStyle.BLOCK
+
+    def test_get_file_size_limit_default(self) -> None:
+        assert get_file_size_limit() == -1
+
+    def test_get_file_size_limit_custom(self) -> None:
+        get_plugin_settings().set("file_size_limit", 1024)
+        assert get_file_size_limit() == 1024

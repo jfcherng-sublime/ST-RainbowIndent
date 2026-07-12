@@ -68,6 +68,7 @@ class View:
         self._content = content
         self._settings = Settings()
         self._syntax = Syntax(path="", scope=syntax_scope, name="")
+        self.regions: dict[str, list[Region]] = {}
 
     def settings(self) -> Settings:
         return self._settings
@@ -77,6 +78,9 @@ class View:
 
     def size(self) -> int:
         return len(self._content)
+
+    def set_content(self, content: str) -> None:
+        self._content = content
 
     def substr(self, region: Region) -> str:
         return self._content[region.a : region.b]
@@ -104,10 +108,10 @@ class View:
         return []
 
     def add_regions(self, key: str, regions: list[Region], scope: str = "", icon: str = "", flags: int = 0) -> None:
-        pass
+        self.regions[key] = list(regions)
 
     def erase_regions(self, key: str) -> None:
-        pass
+        self.regions.pop(key, None)
 
 
 # Mock module-level constants

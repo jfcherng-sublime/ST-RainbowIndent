@@ -86,11 +86,7 @@ class ViewManager:
 
     def clear_view(self) -> None:
         """Clears the managed `views`."""
-        for level in range(self.max_level + 1):
-            try:
-                self.view.erase_regions(get_regions_key(level))
-            except Exception:
-                log_error(f"Failed to erase regions for level {level}")
+        self._erase_levels(0, self.max_level)
         self.max_level = -1
 
     def render_view(self) -> None:
@@ -100,12 +96,25 @@ class ViewManager:
 
             level_colors = get_level_colors()
             level_regions = calculate_level_regions(self.view)
-            self.max_level = max(level_regions.keys(), default=-1)
+            new_max_level = max(level_regions.keys(), default=-1)
 
             renderer.render(level_colors=level_colors, level_regions=level_regions)
+            # Erase leftover regions for levels that existed before this render
+            # but no longer do (e.g., the user dedented previously deep code).
+            self._erase_levels(new_max_level + 1, self.max_level)
+
+            self.max_level = new_max_level
             self.last_change_count = self.view.change_count()
         except Exception:
             log_error("Failed to render view")
+
+    def _erase_levels(self, start_level: INDENT_LEVEL, end_level: INDENT_LEVEL) -> None:
+        """Erases regions for levels in `[start_level, end_level]`."""
+        for level in range(start_level, end_level + 1):
+            try:
+                self.view.erase_regions(get_regions_key(level))
+            except Exception:
+                log_error(f"Failed to erase regions for level {level}")
 
     def _get_renderer(self, level_style: LevelStyle) -> AbstractIndentRenderer:
         if not (renderer_cls := find_indent_renderer(level_style)):

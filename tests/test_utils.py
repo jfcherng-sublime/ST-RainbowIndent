@@ -6,7 +6,6 @@ import pytest
 
 from plugin.utils import camel_to_snake
 from plugin.utils import get_circular_nth
-from plugin.utils import snake_to_camel
 
 
 class TestGetCircularNth:
@@ -47,17 +46,3 @@ class TestCamelToSnake:
 
     def test_numbers(self) -> None:
         assert camel_to_snake("File2Stream") == "file2_stream"
-
-
-class TestSnakeToCamel:
-    def test_simple(self) -> None:
-        assert snake_to_camel("snake_case") == "SnakeCase"
-
-    def test_lower_first(self) -> None:
-        assert snake_to_camel("snake_case", upper_first=False) == "snakeCase"
-
-    def test_single_word(self) -> None:
-        assert snake_to_camel("hello") == "Hello"
-
-    def test_single_word_lower(self) -> None:
-        assert snake_to_camel("hello", upper_first=False) == "hello"

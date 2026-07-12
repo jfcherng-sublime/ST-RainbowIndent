@@ -31,12 +31,6 @@ def camel_to_snake(s: str) -> str:
     return "".join(f"_{c}" if c.isupper() else c for c in s).strip("_").lower()
 
 
-def snake_to_camel(s: str, *, upper_first: bool = True) -> str:
-    """Converts "snake_case" to "CamelCase"."""
-    first, *others = s.split("_")
-    return (first.title() if upper_first else first.lower()) + "".join(map(str.title, others))
-
-
 def debounce[T: Callable](time_s: float | Callable[[], float] = 0.3) -> Callable[[T], T]:
     """
     Debounce a function so that it's called after `time_s` seconds.

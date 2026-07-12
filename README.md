@@ -97,8 +97,8 @@ Because no scope is named `nothing`, this plugin won't render indents.
 
 Then, you can enable rendering manually by one of the following ways.
 
-- From the command palette: `RainbowIndent: Disable for This View (Forced)`
-- From the context menu: `RainbowIndent` » `Disable for This View (Forced)`
+- From the command palette: `RainbowIndent: Enable for This View (Forced)`
+- From the context menu: `RainbowIndent` » `Enable for This View (Forced)`
 - Create and trigger a keybinding for the `rainbow_indent_view_toggle` command for convenience.
 
 ## Known Issues

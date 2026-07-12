@@ -71,20 +71,34 @@ class Syntax:
     name: str
 
 
+class Sheet:
+    """Mock for sublime.Sheet."""
+
+    def __init__(self, *, is_transient: bool = False) -> None:
+        self._is_transient = is_transient
+
+    def is_transient(self) -> bool:
+        return self._is_transient
+
+
 class View:
     """Mock for sublime.View."""
 
     def __init__(self, content: str = "", syntax_scope: str = "text.plain") -> None:
         self._content = content
         self._settings = Settings()
-        self._syntax = Syntax(path="", scope=syntax_scope, name="")
+        self._syntax: Syntax | None = Syntax(path="", scope=syntax_scope, name="")
+        self._sheet: Sheet | None = None
         self.regions: dict[str, list[Region]] = {}
 
     def settings(self) -> Settings:
         return self._settings
 
-    def syntax(self) -> Syntax:
+    def syntax(self) -> Syntax | None:
         return self._syntax
+
+    def sheet(self) -> Sheet | None:
+        return self._sheet
 
     def size(self) -> int:
         return len(self._content)
@@ -141,6 +155,24 @@ class Window:
 DRAW_NO_OUTLINE = 0
 HIDE_ON_MINIMAP = 0
 DRAW_EMPTY = 0
+
+
+def score_selector(scope_name: str, selector: str) -> int:
+    """
+    Simplified mock of sublime.score_selector(): real ST selector matching is far more
+    elaborate. This only covers what this plugin needs: an empty selector matches any
+    scope (per real ST behavior), and otherwise a `|`/whitespace-separated term matches
+    if it's a scope-hierarchy prefix of `scope_name` (e.g. "source" matches "source.python").
+    """
+    selector = selector.strip()
+    if not selector:
+        return 1
+    terms = [t for part in selector.split("|") for t in part.split()]
+    for term in terms:
+        if scope_name == term or scope_name.startswith(f"{term}."):
+            return 1
+    return 0
+
 
 # Mock module-level functions
 _windows: list[Window] = []

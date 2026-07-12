@@ -45,11 +45,21 @@ class Region:
 class Settings(UserDict):
     """Mock for sublime.Settings."""
 
+    def __init__(self) -> None:
+        super().__init__()
+        self.on_change_callbacks: dict[str, Callable[[], None]] = {}
+
     def get(self, key: str, default: Any = None) -> Any:  # type: ignore[override]
         return self.data.get(key, default)
 
     def set(self, key: str, value: Any) -> None:
         self.data[key] = value
+
+    def add_on_change(self, tag: str, callback: Callable[[], None]) -> None:
+        self.on_change_callbacks[tag] = callback
+
+    def clear_on_change(self, tag: str) -> None:
+        self.on_change_callbacks.pop(tag, None)
 
 
 @dataclass
@@ -92,6 +102,9 @@ class View:
             end = len(self._content)
         return Region(start, end)
 
+    def id(self) -> int:
+        return id(self)
+
     def change_count(self) -> int:
         return 0
 
@@ -114,21 +127,39 @@ class View:
         self.regions.pop(key, None)
 
 
+class Window:
+    """Mock for sublime.Window."""
+
+    def __init__(self, views: list[View] | None = None) -> None:
+        self._views = views or []
+
+    def views(self, *, include_transient: bool = False) -> list[View]:
+        return list(self._views)
+
+
 # Mock module-level constants
 DRAW_NO_OUTLINE = 0
 HIDE_ON_MINIMAP = 0
 DRAW_EMPTY = 0
 
 # Mock module-level functions
-_windows: list[Any] = []
+_windows: list[Window] = []
 
 
-def windows() -> list[Any]:
+def windows() -> list[Window]:
     return _windows
 
 
+# Real `sublime.load_settings()` returns the same object for repeated calls with the
+# same `base_name`, rather than reloading from disk; mirror that so callbacks registered
+# via `add_on_change`/`clear_on_change` operate on the object other code actually mutates.
+_settings_cache: dict[str, Settings] = {}
+
+
 def load_settings(base_name: str) -> Settings:
-    return Settings()
+    if base_name not in _settings_cache:
+        _settings_cache[base_name] = Settings()
+    return _settings_cache[base_name]
 
 
 # Calls scheduled via `set_timeout_async`, in scheduling order.

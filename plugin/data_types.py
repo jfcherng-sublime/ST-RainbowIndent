@@ -41,7 +41,9 @@ class IndentInfo:
     def from_view(cls, view: sublime.View) -> Self:
         settings = view.settings()
         return cls(
-            tab_size=int(settings.get("tab_size", 4)),
+            # a non-positive "tab_size" would make `indent_length` 0, and
+            # `range(..., step=0)` raises ValueError downstream in `calculate_level_regions()`
+            tab_size=max(1, int(settings.get("tab_size", 4))),
             style=IndentStyle.SPACE if settings.get("translate_tabs_to_spaces", False) else IndentStyle.TAB,
         )
 

@@ -95,3 +95,10 @@ class TestCalculateLevelRegions:
         result = calculate_level_regions(view, indent_info=info)
         assert 0 in result
         assert len(result[0]) == 2
+
+    def test_zero_tab_size_does_not_crash(self) -> None:
+        """A misconfigured tab_size=0 must not raise ValueError from range(step=0)."""
+        view = _make_view("    a\n    b")
+        view.settings().set("tab_size", 0)
+        result = calculate_level_regions(view)  # must not raise
+        assert 0 in result

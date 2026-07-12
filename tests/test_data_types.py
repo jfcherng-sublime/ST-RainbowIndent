@@ -77,6 +77,23 @@ class TestIndentInfo:
         assert info.tab_size == 4
         assert info.style == IndentStyle.TAB  # default ST setting
 
+    def test_from_view_clamps_non_positive_tab_size(self) -> None:
+        """A tab_size of 0 (or negative) must not produce a zero indent_length.
+
+        Otherwise `calculate_level_regions()`'s `range(..., step=indent_length)` raises ValueError.
+        """
+        view = View(content="  hello")
+        view.settings().set("tab_size", 0)
+        view.settings().set("translate_tabs_to_spaces", True)
+        info = IndentInfo.from_view(view)
+        assert info.tab_size == 1
+        assert info.indent_length == 1
+
+        view.settings().set("tab_size", -4)
+        info = IndentInfo.from_view(view)
+        assert info.tab_size == 1
+        assert info.indent_length == 1
+
     def test_cached_properties(self) -> None:
         """cached_property should return the same object on repeated access."""
         info = IndentInfo(tab_size=4, style=IndentStyle.SPACE)

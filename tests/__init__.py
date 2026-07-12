@@ -127,5 +127,10 @@ def load_settings(base_name: str) -> Settings:
     return Settings()
 
 
+# Calls scheduled via `set_timeout_async`, in scheduling order.
+# Tests can invoke the callbacks manually to simulate timers firing; not auto-run.
+scheduled_calls: list[tuple[Callable[[], Any], float]] = []
+
+
 def set_timeout_async(f: Callable[[], Any], timeout_ms: float = 0) -> None:
-    pass
+    scheduled_calls.append((f, timeout_ms))

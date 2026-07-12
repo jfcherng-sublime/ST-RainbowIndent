@@ -1,4 +1,5 @@
 import inspect
+import weakref
 from collections.abc import Callable
 from collections.abc import Generator
 from collections.abc import Iterable
@@ -36,31 +37,36 @@ def snake_to_camel(s: str, *, upper_first: bool = True) -> str:
     return (first.title() if upper_first else first.lower()) + "".join(map(str.title, others))
 
 
-def debounce[T: Callable](time_s: float = 0.3) -> Callable[[T], T]:
+def debounce[T: Callable](time_s: float | Callable[[], float] = 0.3) -> Callable[[T], T]:
     """
     Debounce a function so that it's called after `time_s` seconds.
-    If it's called multiple times in the time frame, it will only run the last call.
+    If it's called multiple times for the same first argument (e.g., the same `sublime.View`)
+    within the time frame, only the last call for that argument will run. Calls for a
+    different first argument don't affect each other, so debouncing one view's rendering
+    can't starve another view's pending render.
 
-    Uses a generation counter because ``sublime.set_timeout_async`` callbacks
+    `time_s` may also be a zero-argument callable, re-evaluated on every call, so that
+    live setting changes take effect without re-decorating `func`.
+
+    Uses a per-subject generation counter because ``sublime.set_timeout_async`` callbacks
     cannot be cancelled once scheduled.
     """
 
     def decorator(func: T) -> T:
-        _call_id: int = 0
+        call_ids: weakref.WeakKeyDictionary[Any, int] = weakref.WeakKeyDictionary()
 
         @wraps(func)
         def debounced(*args: Any, **kwargs: Any) -> None:
-            nonlocal _call_id
-            _call_id += 1
-            captured_id = _call_id
+            subject = args[0]
+            captured_id = call_ids[subject] = call_ids.get(subject, 0) + 1
 
             def call_function() -> Any:
-                nonlocal _call_id
-                if captured_id != _call_id:
-                    return  # a newer call superseded this one
+                if call_ids.get(subject) != captured_id:
+                    return  # a newer call for this subject superseded this one
                 return func(*args, **kwargs)
 
-            sublime.set_timeout_async(call_function, int(time_s * 1000))
+            resolved_time_s = time_s() if callable(time_s) else time_s
+            sublime.set_timeout_async(call_function, int(resolved_time_s * 1000))
 
         return cast(T, debounced)
 

@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from functools import wraps
 from typing import Any
 from typing import cast
 from typing import overload
@@ -15,14 +16,15 @@ from .utils import debounce
 def debounce_by_settings[T: Callable](func: T) -> T:
     """Debounce a function so that it's called once in seconds defined in the plugin settings."""
 
-    def debounced(*args: Any, **kwargs: Any) -> Any:
-        from .settings import get_debounce_time
+    debounced = debounce(get_debounce_time)(func)
 
-        if (time_s := get_debounce_time()) > 0:
-            return debounce(time_s)(func)(*args, **kwargs)
+    @wraps(func)
+    def maybe_debounced(*args: Any, **kwargs: Any) -> Any:
+        if get_debounce_time() > 0:
+            return debounced(*args, **kwargs)
         return func(*args, **kwargs)
 
-    return cast(T, debounced)
+    return cast(T, maybe_debounced)
 
 
 @overload

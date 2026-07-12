@@ -1,8 +1,7 @@
 {
     "*": {
         "*": [
-            "more-itertools",
-            "typing-extensions"
+            "more-itertools"
         ]
     }
 }

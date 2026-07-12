@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
+## [4203-2.1.0] - 2026-07-12
+
+### 🚀 Features
+
+- Propagate settings changes to already-open views
+
+### 🐛 Bug Fixes
+
+- Correct toggle always-enables bug and harden render pipeline
+- Crash when the tab_size setting is non-positive
+- Debounce_by_settings never actually debounced, and was later found to leak across views
+- Erase stale rainbow regions when indentation shrinks
+- Toggle command got stuck after the first invocation
+- Wire up checkbox for Disable/Enable context menu items
+
+### 🚜 Refactor
+
+- Remove unused snake_to_camel utility
+
+### 📚 Documentation
+
+- Fix Enable/Disable mixup in per-view rendering FAQ
+- Generalize guidance for any coding agent
+
+### 🧪 Testing
+
+- Close remaining coverage gaps in view_manager, renderers, settings, listener
+- Cover is_renderable_view, the core rendering gate (was untested)
+
+### ⚙️ Miscellaneous Tasks
+
+- Trigger checks on pyproject.toml/uv.lock changes too
+- Update deps
+
 ## [4203-2.0.1] - 2026-05-04
 
 ### 🚜 Refactor

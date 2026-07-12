@@ -6,10 +6,12 @@
             {
                 "caption": "Disable for This View (Forced)",
                 "command": "rainbow_indent_view_disable",
+                "checkbox": true,
             },
             {
                 "caption": "Enable for This View (Forced)",
                 "command": "rainbow_indent_view_enable",
+                "checkbox": true,
             },
             {
                 "caption": "Toggle for This View (Forced)",

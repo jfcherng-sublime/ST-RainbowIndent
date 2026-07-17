@@ -68,18 +68,28 @@ exclude = [
 
 [tool.ruff.lint]
 select = [
+  "B",
+  "C4",
   "E",
   "F",
-  "W",
-  "I",
-  "UP",
   "FURB",
+  "I",
+  "PERF",
+  "PIE",
+  "RET",
+  "RUF",
   "SIM",
+  "UP",
+  "W",
 ]
-ignore = ["E203"]
+ignore = [
+  "class-as-data-structure",  # test stubs may not be dataclasses
+  "whitespace-before-punctuation",
+  "non-empty-init-module",  # ST plugins need plugin_loaded/unloaded in __init__.py
+]
 
 [tool.ruff.lint.isort]
 force-single-line = true
 
 [tool.ruff.lint.per-file-ignores]
-"boot.py" = ["E402"]
+"boot.py" = ["module-import-not-at-top-of-file"]

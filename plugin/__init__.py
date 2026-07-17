@@ -9,17 +9,17 @@ from .settings import get_plugin_settings
 from .view_manager import ViewManager
 
 __all__ = (
-    # ST: core
-    "plugin_loaded",
-    "plugin_unloaded",
+    # public interfaces
+    "AbstractIndentRenderer",
+    # ST: listeners
+    "RainbowIndentEventListener",
     # ST: commands
     "RainbowIndentViewDisableCommand",
     "RainbowIndentViewEnableCommand",
     "RainbowIndentViewToggleCommand",
-    # ST: listeners
-    "RainbowIndentEventListener",
-    # public interfaces
-    "AbstractIndentRenderer",
+    # ST: core
+    "plugin_loaded",
+    "plugin_unloaded",
 )
 
 

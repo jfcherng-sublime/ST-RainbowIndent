@@ -56,7 +56,7 @@ def debounce[T: Callable](time_s: float | Callable[[], float] = 0.3) -> Callable
 
             def call_function() -> Any:
                 if call_ids.get(subject) != captured_id:
-                    return  # a newer call for this subject superseded this one
+                    return None  # a newer call for this subject superseded this one
                 return func(*args, **kwargs)
 
             resolved_time_s = time_s() if callable(time_s) else time_s

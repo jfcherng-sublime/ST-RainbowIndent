@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pytest
+
 import tests as sublime_mock
 from plugin.data_types import LevelStyle
 from plugin.settings import debounce_by_settings
@@ -120,11 +122,11 @@ class TestSettingsGetters:
         _reset_plugin_settings()
 
     def test_get_debounce_time_default(self) -> None:
-        assert get_debounce_time() == 0.2
+        assert get_debounce_time() == pytest.approx(0.2)
 
     def test_get_debounce_time_custom(self) -> None:
         get_plugin_settings().set("debounce", 1.5)
-        assert get_debounce_time() == 1.5
+        assert get_debounce_time() == pytest.approx(1.5)
 
     def test_get_enabled_selector_default(self) -> None:
         assert get_enabled_selector() == ""

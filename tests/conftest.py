@@ -11,7 +11,7 @@ import tests  # the mock module
 sys.modules["sublime"] = tests
 
 # Create a minimal sublime_plugin mock with the needed base classes
-import types  # noqa: E402
+import types  # ruff:ignore[module-import-not-at-top-of-file]
 
 _sublime_plugin = types.ModuleType("sublime_plugin")
 

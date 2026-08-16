@@ -12,7 +12,7 @@ dependencies = [
 dev = [
   "mypy>=2",
   "pytest>=8",
-  "ruff>=0.15",
+  "ruff>=0.16",
 ]
 
 [tool.pytest.ini_options]
